@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Radar Simulation: Intermediate Technical Guide</title>
+  <style>
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+background-color: #1a1a1a;
+border: none;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Radar Simulation: Intermediate Technical Guide</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#radar-simulation-intermediate-technical-guide" id="toc-radar-simulation-intermediate-technical-guide">Radar Simulation:
+Intermediate Technical Guide</a>
+<ul>
+<li><a href="#a-comprehensive-foundation-for-understanding-radar-systems-and-simulation" id="toc-a-comprehensive-foundation-for-understanding-radar-systems-and-simulation">A
+Comprehensive Foundation for Understanding Radar Systems and
+Simulation</a></li>
+</ul></li>
+<li><a href="#part-i-fundamentals-of-radar" id="toc-part-i-fundamentals-of-radar">Part I: Fundamentals of Radar</a>
+<ul>
+<li><a href="#chapter-1-the-physics-of-radar" id="toc-chapter-1-the-physics-of-radar">Chapter 1: The Physics of
+Radar</a>
+<ul>
+<li><a href="#electromagnetic-wave-propagation" id="toc-electromagnetic-wave-propagation">1.1 Electromagnetic Wave
+Propagation</a></li>
+<li><a href="#the-pulse-radar-concept" id="toc-the-pulse-radar-concept">1.2 The Pulse Radar Concept</a></li>
+<li><a href="#range-resolution" id="toc-range-resolution">1.3 Range
+Resolution</a></li>
+</ul></li>
+<li><a href="#chapter-2-the-radar-equation" id="toc-chapter-2-the-radar-equation">Chapter 2: The Radar Equation</a>
+<ul>
+<li><a href="#derivation-from-first-principles" id="toc-derivation-from-first-principles">2.1 Derivation from First
+Principles</a></li>
+<li><a href="#the-complete-radar-equation" id="toc-the-complete-radar-equation">2.2 The Complete Radar
+Equation</a></li>
+<li><a href="#logarithmic-db-form" id="toc-logarithmic-db-form">2.3
+Logarithmic (dB) Form</a></li>
+<li><a href="#radar-cross-section-rcs" id="toc-radar-cross-section-rcs">2.4 Radar Cross Section (RCS)</a></li>
+</ul></li>
+<li><a href="#chapter-3-antenna-fundamentals" id="toc-chapter-3-antenna-fundamentals">Chapter 3: Antenna
+Fundamentals</a>
+<ul>
+<li><a href="#antenna-gain-and-beamwidth" id="toc-antenna-gain-and-beamwidth">3.1 Antenna Gain and
+Beamwidth</a></li>
+<li><a href="#the-antenna-pattern" id="toc-the-antenna-pattern">3.2 The
+Antenna Pattern</a></li>
+<li><a href="#azimuth-and-elevation-patterns" id="toc-azimuth-and-elevation-patterns">3.3 Azimuth and Elevation
+Patterns</a></li>
+</ul></li>
+<li><a href="#chapter-4-signal-processing-fundamentals" id="toc-chapter-4-signal-processing-fundamentals">Chapter 4: Signal
+Processing Fundamentals</a>
+<ul>
+<li><a href="#receiver-chain" id="toc-receiver-chain">4.1 Receiver
+Chain</a></li>
+<li><a href="#detection-theory" id="toc-detection-theory">4.2 Detection
+Theory</a></li>
+<li><a href="#log-compression" id="toc-log-compression">4.3 Log
+Compression</a></li>
+<li><a href="#thresholding-and-cfar" id="toc-thresholding-and-cfar">4.4
+Thresholding and CFAR</a></li>
+</ul></li>
+<li><a href="#chapter-5-clutter-and-interference" id="toc-chapter-5-clutter-and-interference">Chapter 5: Clutter and
+Interference</a>
+<ul>
+<li><a href="#sea-clutter" id="toc-sea-clutter">5.1 Sea Clutter</a></li>
+<li><a href="#rain-clutter" id="toc-rain-clutter">5.2 Rain
+Clutter</a></li>
+<li><a href="#receiver-noise" id="toc-receiver-noise">5.3 Receiver
+Noise</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#part-ii-geometry-of-radar-simulation" id="toc-part-ii-geometry-of-radar-simulation">Part II: Geometry of Radar
+Simulation</a>
+<ul>
+<li><a href="#chapter-6-coordinate-systems" id="toc-chapter-6-coordinate-systems">Chapter 6: Coordinate Systems</a>
+<ul>
+<li><a href="#radar-centric-coordinates" id="toc-radar-centric-coordinates">6.1 Radar-Centric
+Coordinates</a></li>
+<li><a href="#range-bins" id="toc-range-bins">6.2 Range Bins</a></li>
+<li><a href="#bearing-representation" id="toc-bearing-representation">6.3 Bearing Representation</a></li>
+<li><a href="#the-sweep-data-structure" id="toc-the-sweep-data-structure">6.4 The Sweep Data Structure</a></li>
+</ul></li>
+<li><a href="#chapter-7-target-modeling" id="toc-chapter-7-target-modeling">Chapter 7: Target Modeling</a>
+<ul>
+<li><a href="#point-targets" id="toc-point-targets">7.1 Point
+Targets</a></li>
+<li><a href="#extended-targets" id="toc-extended-targets">7.2 Extended
+Targets</a></li>
+<li><a href="#aspect-dependent-rcs" id="toc-aspect-dependent-rcs">7.3
+Aspect-Dependent RCS</a></li>
+<li><a href="#swerling-target-models" id="toc-swerling-target-models">7.4 Swerling Target Models</a></li>
+</ul></li>
+<li><a href="#chapter-8-terrain-and-coastline-modeling" id="toc-chapter-8-terrain-and-coastline-modeling">Chapter 8: Terrain and
+Coastline Modeling</a>
+<ul>
+<li><a href="#height-maps" id="toc-height-maps">8.1 Height Maps</a></li>
+<li><a href="#line-of-sight-los-calculation" id="toc-line-of-sight-los-calculation">8.2 Line-of-Sight (LOS)
+Calculation</a></li>
+<li><a href="#terrain-radar-returns" id="toc-terrain-radar-returns">8.3
+Terrain Radar Returns</a></li>
+<li><a href="#coastline-modeling" id="toc-coastline-modeling">8.4
+Coastline Modeling</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#part-iii-real-world-applications" id="toc-part-iii-real-world-applications">Part III: Real-World
+Applications</a>
+<ul>
+<li><a href="#chapter-9-why-simulate-radar" id="toc-chapter-9-why-simulate-radar">Chapter 9: Why Simulate Radar?</a>
+<ul>
+<li><a href="#training-and-education" id="toc-training-and-education">9.1 Training and Education</a></li>
+<li><a href="#system-development" id="toc-system-development">9.2 System
+Development</a></li>
+<li><a href="#research-and-analysis" id="toc-research-and-analysis">9.3
+Research and Analysis</a></li>
+<li><a href="#acceptance-testing" id="toc-acceptance-testing">9.4
+Acceptance Testing</a></li>
+</ul></li>
+<li><a href="#chapter-10-existing-research-and-systems" id="toc-chapter-10-existing-research-and-systems">Chapter 10: Existing
+Research and Systems</a>
+<ul>
+<li><a href="#academic-radar-simulators" id="toc-academic-radar-simulators">10.1 Academic Radar
+Simulators</a></li>
+<li><a href="#commercial-simulators" id="toc-commercial-simulators">10.2
+Commercial Simulators</a></li>
+<li><a href="#open-source-projects" id="toc-open-source-projects">10.3
+Open-Source Projects</a></li>
+<li><a href="#key-research-papers" id="toc-key-research-papers">10.4 Key
+Research Papers</a></li>
+</ul></li>
+<li><a href="#chapter-11-validation-methodology" id="toc-chapter-11-validation-methodology">Chapter 11: Validation
+Methodology</a>
+<ul>
+<li><a href="#why-validate" id="toc-why-validate">11.1 Why
+Validate?</a></li>
+<li><a href="#quantitative-metrics" id="toc-quantitative-metrics">11.2
+Quantitative Metrics</a></li>
+<li><a href="#qualitative-assessment" id="toc-qualitative-assessment">11.3 Qualitative Assessment</a></li>
+<li><a href="#validation-process" id="toc-validation-process">11.4
+Validation Process</a></li>
+</ul></li>
+<li><a href="#chapter-12-practical-considerations" id="toc-chapter-12-practical-considerations">Chapter 12: Practical
+Considerations</a>
+<ul>
+<li><a href="#performance-requirements" id="toc-performance-requirements">12.1 Performance Requirements</a></li>
+<li><a href="#accuracy-vs.-speed-trade-offs" id="toc-accuracy-vs.-speed-trade-offs">12.2 Accuracy vs. Speed
+Trade-offs</a></li>
+<li><a href="#data-sources" id="toc-data-sources">12.3 Data
+Sources</a></li>
+<li><a href="#computational-optimization" id="toc-computational-optimization">12.4 Computational
+Optimization</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#appendices" id="toc-appendices">Appendices</a>
+<ul>
+<li><a href="#appendix-a-mathematical-reference" id="toc-appendix-a-mathematical-reference">Appendix A: Mathematical
+Reference</a>
+<ul>
+<li><a href="#coordinate-transformations" id="toc-coordinate-transformations">Coordinate Transformations</a></li>
+<li><a href="#decibel-conversions" id="toc-decibel-conversions">Decibel
+Conversions</a></li>
+<li><a href="#statistical-distributions" id="toc-statistical-distributions">Statistical Distributions</a></li>
+</ul></li>
+<li><a href="#appendix-b-glossary" id="toc-appendix-b-glossary">Appendix
+B: Glossary</a></li>
+<li><a href="#appendix-c-further-reading" id="toc-appendix-c-further-reading">Appendix C: Further Reading</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="radar-simulation-intermediate-technical-guide">Radar Simulation:
+Intermediate Technical Guide</h1>
+<h2 id="a-comprehensive-foundation-for-understanding-radar-systems-and-simulation">A
+Comprehensive Foundation for Understanding Radar Systems and
+Simulation</h2>
+<hr />
+<h1 id="part-i-fundamentals-of-radar">Part I: Fundamentals of Radar</h1>
+<h2 id="chapter-1-the-physics-of-radar">Chapter 1: The Physics of
+Radar</h2>
+<h3 id="electromagnetic-wave-propagation">1.1 Electromagnetic Wave
+Propagation</h3>
+<p>Radar (Radio Detection and Ranging) operates by transmitting
+electromagnetic (EM) waves and analyzing their reflections.
+Understanding EM wave behavior is fundamental to radar simulation.</p>
+<p><strong>Key Properties of EM Waves:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Property</th>
+<th>Symbol</th>
+<th>Unit</th>
+<th>Relationship</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Frequency</td>
+<td>f</td>
+<td>Hz</td>
+<td>f = c/λ</td>
+</tr>
+<tr class="even">
+<td>Wavelength</td>
+<td>λ</td>
+<td>meters</td>
+<td>λ = c/f</td>
+</tr>
+<tr class="odd">
+<td>Speed of light</td>
+<td>c</td>
+<td>m/s</td>
+<td>299,792,458 m/s</td>
+</tr>
+<tr class="even">
+<td>Period</td>
+<td>T</td>
+<td>seconds</td>
+<td>T = 1/f</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Common Radar Frequency Bands:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Band</th>
+<th>Frequency Range</th>
+<th>Wavelength</th>
+<th>Typical Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>L</td>
+<td>1-2 GHz</td>
+<td>15-30 cm</td>
+<td>Long-range surveillance</td>
+</tr>
+<tr class="even">
+<td>S</td>
+<td>2-4 GHz</td>
+<td>7.5-15 cm</td>
+<td>Weather radar, ATC</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>4-8 GHz</td>
+<td>3.75-7.5 cm</td>
+<td>Weather, marine</td>
+</tr>
+<tr class="even">
+<td>X</td>
+<td>8-12 GHz</td>
+<td>2.5-3.75 cm</td>
+<td>Marine radar, military</td>
+</tr>
+<tr class="odd">
+<td>Ku</td>
+<td>12-18 GHz</td>
+<td>1.67-2.5 cm</td>
+<td>Satellite, mapping</td>
+</tr>
+<tr class="even">
+<td>K</td>
+<td>18-27 GHz</td>
+<td>1.11-1.67 cm</td>
+<td>Police radar</td>
+</tr>
+<tr class="odd">
+<td>Ka</td>
+<td>27-40 GHz</td>
+<td>0.75-1.11 cm</td>
+<td>High-resolution imaging</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-pulse-radar-concept">1.2 The Pulse Radar Concept</h3>
+<p>Most marine and surveillance radars are <strong>pulse
+radars</strong>. They operate in cycles:</p>
+<ol type="1">
+<li><strong>Transmit Phase:</strong> A short burst of RF energy is
+emitted</li>
+<li><strong>Listen Phase:</strong> The transmitter is silent; the
+receiver listens for echoes</li>
+<li><strong>Process Phase:</strong> Received signals are analyzed</li>
+<li><strong>Repeat:</strong> The cycle continues at the Pulse Repetition
+Frequency (PRF)</li>
+</ol>
+<p><strong>Critical Timing Parameters:</strong></p>
+<pre><code>Pulse Repetition Interval (PRI) = 1 / PRF
+
+Maximum Unambiguous Range = c × PRI / 2
+
+Example: PRF = 1000 Hz
+         PRI = 1 ms
+         Max Range = 299,792,458 × 0.001 / 2 = 149.9 km</code></pre>
+<p><strong>Why divide by 2?</strong> The signal travels to the target
+AND back, so it covers twice the target distance.</p>
+<h3 id="range-resolution">1.3 Range Resolution</h3>
+<p>Range resolution determines how close two targets can be while still
+appearing as separate echoes.</p>
+<pre><code>Range Resolution (ΔR) = c × τ / 2
+
+Where:
+  c = speed of light (m/s)
+  τ = pulse width (seconds)
+
+Example: τ = 1 μs
+         ΔR = 299,792,458 × 0.000001 / 2 = 150 meters</code></pre>
+<p><strong>Trade-off:</strong> Shorter pulses give better resolution but
+less total energy on target.</p>
+<p><strong>Solution:</strong> Pulse compression techniques (covered in
+Professional Guide) allow long pulses with short-pulse resolution.</p>
+<hr />
+<h2 id="chapter-2-the-radar-equation">Chapter 2: The Radar Equation</h2>
+<h3 id="derivation-from-first-principles">2.1 Derivation from First
+Principles</h3>
+<p>The radar equation predicts the power received from a target.
+Understanding its derivation reveals the physics we must simulate.</p>
+<p><strong>Step 1: Power Density at Target</strong></p>
+<p>A radar with transmit power P_t and antenna gain G_t spreads energy
+over a sphere:</p>
+<pre><code>Power Density at Range R = (P_t × G_t) / (4πR²)  [W/m²]</code></pre>
+<p><strong>Step 2: Power Intercepted by Target</strong></p>
+<p>The target intercepts power proportional to its Radar Cross Section
+(σ):</p>
+<pre><code>Power Intercepted = (P_t × G_t × σ) / (4πR²)  [W]</code></pre>
+<p><strong>Step 3: Power Density of Echo at Radar</strong></p>
+<p>The target re-radiates isotropically (simplified model):</p>
+<pre><code>Echo Power Density at Radar = (P_t × G_t × σ) / (4πR²)²  [W/m²]</code></pre>
+<p><strong>Step 4: Power Received</strong></p>
+<p>The receiving antenna has effective aperture A_e = (G_r × λ²) /
+(4π):</p>
+<pre><code>P_r = (P_t × G_t × G_r × λ² × σ) / ((4π)³ × R⁴)</code></pre>
+<h3 id="the-complete-radar-equation">2.2 The Complete Radar
+Equation</h3>
+<p>Including system losses:</p>
+<pre><code>P_r = (P_t × G_t × G_r × λ² × σ) / ((4π)³ × R⁴ × L_sys)
+
+Where:
+  P_r   = Received power (W)
+  P_t   = Transmitted power (W)
+  G_t   = Transmit antenna gain (linear)
+  G_r   = Receive antenna gain (linear)
+  λ     = Wavelength (m)
+  σ     = Radar Cross Section (m²)
+  R     = Range to target (m)
+  L_sys = System losses (linear, ≥1)</code></pre>
+<h3 id="logarithmic-db-form">2.3 Logarithmic (dB) Form</h3>
+<p>In practice, we use decibels for easier calculation:</p>
+<pre><code>P_r(dBW) = P_t(dBW) + G_t(dB) + G_r(dB) + 20log₁₀(λ) + 10log₁₀(σ)
+           - 30log₁₀(4π) - 40log₁₀(R) - L_sys(dB)
+
+Simplified:
+P_r(dBW) = P_t(dBW) + 2G(dB) + 20log₁₀(λ) + 10log₁₀(σ) - 40log₁₀(R) - 33 - L_sys(dB)</code></pre>
+<p><strong>The R⁴ Factor:</strong> This is why radar range is so
+sensitive to power. Doubling range requires 16× the power (12 dB).</p>
+<h3 id="radar-cross-section-rcs">2.4 Radar Cross Section (RCS)</h3>
+<p>RCS (σ) represents how “visible” a target is to radar. It’s NOT
+simply physical size.</p>
+<p><strong>Factors Affecting RCS:</strong> - Physical size and shape -
+Material composition - Surface roughness - Viewing angle (aspect) -
+Frequency</p>
+<p><strong>Typical RCS Values:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Target</th>
+<th>RCS (m²)</th>
+<th>RCS (dBsm)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Insect</td>
+<td>0.00001</td>
+<td>-50</td>
+</tr>
+<tr class="even">
+<td>Bird</td>
+<td>0.001</td>
+<td>-30</td>
+</tr>
+<tr class="odd">
+<td>Human</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Small boat</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>Fishing vessel</td>
+<td>100</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td>Large ship</td>
+<td>10,000</td>
+<td>40</td>
+</tr>
+<tr class="odd">
+<td>Cargo ship</td>
+<td>50,000</td>
+<td>47</td>
+</tr>
+<tr class="even">
+<td>Aircraft carrier</td>
+<td>100,000</td>
+<td>50</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Aspect Dependence:</strong></p>
+<p>A ship’s RCS varies dramatically with viewing angle: - Broadside
+(beam): Maximum RCS (flat surfaces perpendicular to radar) - Bow/Stern:
+Minimum RCS (angled surfaces deflect energy away) - Variation can be
+10-20 dB (10-100× power difference)</p>
+<hr />
+<h2 id="chapter-3-antenna-fundamentals">Chapter 3: Antenna
+Fundamentals</h2>
+<h3 id="antenna-gain-and-beamwidth">3.1 Antenna Gain and Beamwidth</h3>
+<p><strong>Gain:</strong> The ratio of power radiated in a direction
+versus an isotropic (omnidirectional) antenna.</p>
+<pre><code>Gain (dB) = 10 × log₁₀(G_linear)
+
+For a typical marine radar:
+G = 25-35 dB (300-3000× isotropic)</code></pre>
+<p><strong>Beamwidth:</strong> The angular width where power is at least
+half (-3 dB) of peak.</p>
+<pre><code>Horizontal Beamwidth ≈ 70λ/D  [degrees]
+
+Where D = antenna horizontal dimension
+
+Example: X-band (λ = 3 cm), 6-foot antenna (D = 1.83 m)
+         Beamwidth ≈ 70 × 0.03 / 1.83 = 1.15°</code></pre>
+<h3 id="the-antenna-pattern">3.2 The Antenna Pattern</h3>
+<p>The antenna pattern describes gain as a function of angle. For
+simulation, we model this mathematically.</p>
+<p><strong>Sinc-Squared Approximation:</strong></p>
+<pre><code>G(θ) = G_max × [sin(πDθ/λ) / (πDθ/λ)]²
+
+Or simplified:
+G(θ) = G_max × sinc²(θ/θ_3dB × 1.39)</code></pre>
+<p><strong>In the simulator, this becomes:</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_beam_pattern(<span class="va">self</span>, angle_off_boresight):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Calculate antenna gain at given angle from boresight.&quot;&quot;&quot;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">abs</span>(angle_off_boresight) <span class="op">&gt;</span> <span class="dv">90</span>:</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">0.0</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Normalized angle (1.0 at 3dB point)</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> angle_off_boresight <span class="op">/</span> (<span class="va">self</span>.beamwidth <span class="op">/</span> <span class="dv">2</span>) <span class="op">*</span> <span class="fl">1.39</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">abs</span>(x) <span class="op">&lt;</span> <span class="fl">0.001</span>:</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">1.0</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sinc-squared pattern</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (math.sin(math.pi <span class="op">*</span> x) <span class="op">/</span> (math.pi <span class="op">*</span> x)) <span class="op">**</span> <span class="dv">2</span></span></code></pre></div>
+<h3 id="azimuth-and-elevation-patterns">3.3 Azimuth and Elevation
+Patterns</h3>
+<p>Marine radars have different patterns in azimuth (horizontal) and
+elevation (vertical):</p>
+<ul>
+<li><strong>Azimuth:</strong> Narrow (1-2°) for good angular
+resolution</li>
+<li><strong>Elevation:</strong> Wide (20-30°) to accommodate ship motion
+and wave heights</li>
+</ul>
+<p>This is why marine radar antennas are wide and short.</p>
+<hr />
+<h2 id="chapter-4-signal-processing-fundamentals">Chapter 4: Signal
+Processing Fundamentals</h2>
+<h3 id="receiver-chain">4.1 Receiver Chain</h3>
+<pre><code>Antenna → Low-Noise Amplifier → Mixer → IF Amplifier →
+         Detector → A/D Converter → Digital Processor</code></pre>
+<p><strong>Key Concepts:</strong></p>
+<ol type="1">
+<li><strong>Noise Figure (NF):</strong> Degradation in SNR caused by
+receiver</li>
+<li><strong>Dynamic Range:</strong> Ratio of strongest to weakest
+detectable signal</li>
+<li><strong>Sensitivity:</strong> Minimum detectable signal level</li>
+</ol>
+<h3 id="detection-theory">4.2 Detection Theory</h3>
+<p><strong>Signal-to-Noise Ratio (SNR):</strong></p>
+<pre><code>SNR = P_signal / P_noise
+
+SNR(dB) = 10 × log₁₀(P_signal / P_noise)</code></pre>
+<p><strong>Probability of Detection (P_d):</strong> Likelihood of
+detecting a target when present <strong>Probability of False Alarm
+(P_fa):</strong> Likelihood of declaring a detection when only noise is
+present</p>
+<p><strong>Trade-off:</strong> Lowering detection threshold increases
+P_d but also increases P_fa.</p>
+<h3 id="log-compression">4.3 Log Compression</h3>
+<p>Raw radar returns have enormous dynamic range (60-80 dB). Display
+systems can’t show this directly.</p>
+<p><strong>Log Compression:</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_compress(linear_power, dynamic_range_db<span class="op">=</span><span class="dv">80</span>):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Convert linear power to display intensity (0-1).&quot;&quot;&quot;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    floor <span class="op">=</span> <span class="dv">10</span> <span class="op">**</span> (<span class="op">-</span>dynamic_range_db <span class="op">/</span> <span class="dv">10</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    clamped <span class="op">=</span> <span class="bu">max</span>(linear_power, floor)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    db_value <span class="op">=</span> <span class="dv">10</span> <span class="op">*</span> math.log10(clamped)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    normalized <span class="op">=</span> (db_value <span class="op">+</span> dynamic_range_db) <span class="op">/</span> dynamic_range_db</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">min</span>(<span class="dv">1</span>, normalized))</span></code></pre></div>
+<p>This maps: - Strong signals (0 dB) → 1.0 (bright) - Noise floor (-80
+dB) → 0.0 (dark)</p>
+<h3 id="thresholding-and-cfar">4.4 Thresholding and CFAR</h3>
+<p><strong>Fixed Threshold:</strong> Declare detection if signal &gt;
+T</p>
+<p>Problem: Clutter and noise vary with range and conditions.</p>
+<p><strong>CFAR (Constant False Alarm Rate):</strong> Adaptive threshold
+based on local environment.</p>
+<pre><code>For each cell under test:
+  1. Sample surrounding &quot;training cells&quot;
+  2. Estimate local noise/clutter level
+  3. Set threshold = estimate × multiplier
+  4. Compare cell under test to threshold</code></pre>
+<hr />
+<h2 id="chapter-5-clutter-and-interference">Chapter 5: Clutter and
+Interference</h2>
+<h3 id="sea-clutter">5.1 Sea Clutter</h3>
+<p>Sea clutter is radar returns from the ocean surface. It’s the
+dominant interference for marine radar.</p>
+<p><strong>Characteristics:</strong> - Strongest at close range (R^-2.5
+to R^-3 falloff) - Increases with sea state (wave height) - Varies with
+wind direction relative to radar look angle - “Spiky” statistical
+distribution</p>
+<p><strong>K-Distribution Model:</strong></p>
+<p>Sea clutter amplitude follows a K-distribution (not Gaussian):</p>
+<pre><code>K-distribution = Gamma(ν) × Exponential
+
+Where ν (shape parameter) decreases with sea state:
+- Calm seas: ν ≈ 10 (nearly Rayleigh)
+- Rough seas: ν ≈ 0.5 (very spiky)</code></pre>
+<p><strong>Simulation Implementation:</strong></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_sea_clutter(num_bins, sea_state, bearing, wind_dir):</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    nu <span class="op">=</span> <span class="bu">max</span>(<span class="fl">0.5</span>, <span class="fl">10.0</span> <span class="op">-</span> sea_state <span class="op">*</span> <span class="fl">1.2</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    wind_factor <span class="op">=</span> <span class="fl">1.0</span> <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> cos(radians(bearing <span class="op">-</span> wind_dir))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    gamma_samples <span class="op">=</span> np.random.gamma(nu, <span class="dv">1</span><span class="op">/</span>nu, num_bins)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    exp_samples <span class="op">=</span> np.random.exponential(<span class="fl">1.0</span>, num_bins)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    k_samples <span class="op">=</span> gamma_samples <span class="op">*</span> exp_samples</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Range-dependent falloff</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    ranges <span class="op">=</span> np.arange(num_bins) <span class="op">*</span> bin_size</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    range_factor <span class="op">=</span> (<span class="dv">100</span> <span class="op">/</span> ranges) <span class="op">**</span> <span class="fl">2.5</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> base_level <span class="op">*</span> k_samples <span class="op">*</span> range_factor <span class="op">*</span> wind_factor</span></code></pre></div>
+<h3 id="rain-clutter">5.2 Rain Clutter</h3>
+<p>Rain produces distributed returns throughout the precipitation
+area.</p>
+<p><strong>Marshall-Palmer Attenuation:</strong></p>
+<pre><code>Attenuation (dB/km) = 0.01 × R^1.21
+
+Where R = rain rate in mm/hour</code></pre>
+<p>Rain both: 1. Creates false returns (clutter) 2. Attenuates signals
+to targets behind it</p>
+<h3 id="receiver-noise">5.3 Receiver Noise</h3>
+<p>Even with no targets or clutter, the receiver produces noise.</p>
+<p><strong>Rayleigh-Envelope Noise:</strong></p>
+<p>Radar receivers output the magnitude of complex signals. Thermal
+noise has Gaussian in-phase and quadrature components, so the magnitude
+follows a Rayleigh distribution.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_rayleigh_noise(num_samples, sigma):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Generate Rayleigh-envelope noise.&quot;&quot;&quot;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    real <span class="op">=</span> np.random.normal(<span class="dv">0</span>, sigma, num_samples)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    imag <span class="op">=</span> np.random.normal(<span class="dv">0</span>, sigma, num_samples)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.sqrt(real<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> imag<span class="op">**</span><span class="dv">2</span>)</span></code></pre></div>
+<hr />
+<h1 id="part-ii-geometry-of-radar-simulation">Part II: Geometry of Radar
+Simulation</h1>
+<h2 id="chapter-6-coordinate-systems">Chapter 6: Coordinate Systems</h2>
+<h3 id="radar-centric-coordinates">6.1 Radar-Centric Coordinates</h3>
+<p>Radar naturally measures in <strong>polar coordinates</strong>: -
+<strong>Range (R):</strong> Distance from antenna to target -
+<strong>Bearing (θ):</strong> Angle from reference (usually North)</p>
+<p><strong>Conversion to Cartesian:</strong></p>
+<pre><code>x = R × sin(θ)
+y = R × cos(θ)
+
+Note: Using sin for x and cos for y makes θ=0° point North</code></pre>
+<p><strong>Conversion from Cartesian:</strong></p>
+<pre><code>R = √(x² + y²)
+θ = atan2(x, y)  [0-360°]</code></pre>
+<h3 id="range-bins">6.2 Range Bins</h3>
+<p>Radar data is naturally digitized into <strong>range
+bins</strong>:</p>
+<pre><code>Bin Size = Max Range / Number of Bins
+
+Example: 6 nm range, 512 bins
+         6 nm = 11,112 m
+         Bin Size = 11,112 / 512 = 21.7 m</code></pre>
+<p><strong>Converting Range to Bin:</strong></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> range_to_bin(range_m, max_range_m, num_bins):</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">int</span>(range_m <span class="op">/</span> max_range_m <span class="op">*</span> num_bins)</span></code></pre></div>
+<h3 id="bearing-representation">6.3 Bearing Representation</h3>
+<p><strong>Discrete Bearings:</strong></p>
+<p>Physical radar antennas rotate continuously, but digital systems
+sample at discrete bearings:</p>
+<pre><code>Furuno radars: 4096 bearings per rotation
+              Angular resolution = 360° / 4096 = 0.088°</code></pre>
+<p><strong>Bearing Arithmetic:</strong></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> normalize_bearing(bearing):</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Normalize bearing to 0-360°.&quot;&quot;&quot;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> bearing <span class="op">%</span> <span class="dv">360</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bearing_difference(b1, b2):</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Signed difference, -180 to +180.&quot;&quot;&quot;</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> (b1 <span class="op">-</span> b2 <span class="op">+</span> <span class="dv">180</span>) <span class="op">%</span> <span class="dv">360</span> <span class="op">-</span> <span class="dv">180</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> diff</span></code></pre></div>
+<h3 id="the-sweep-data-structure">6.4 The Sweep Data Structure</h3>
+<p>A single radar sweep (one bearing) produces an array of range bin
+values:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sweep <span class="op">=</span> [<span class="fl">0.0</span>] <span class="op">*</span> num_bins  <span class="co"># Initialize</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># For each target:</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>bin_idx <span class="op">=</span> range_to_bin(target_range, max_range, num_bins)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>sweep[bin_idx] <span class="op">=</span> <span class="bu">max</span>(sweep[bin_idx], target_intensity)</span></code></pre></div>
+<p>A complete rotation produces a 2D array:</p>
+<pre><code>sweep_buffer[bearing_index][range_bin] = intensity</code></pre>
+<hr />
+<h2 id="chapter-7-target-modeling">Chapter 7: Target Modeling</h2>
+<h3 id="point-targets">7.1 Point Targets</h3>
+<p>The simplest model treats targets as points with an RCS value:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PointTarget:</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, x, y, rcs):</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.x <span class="op">=</span> x</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.y <span class="op">=</span> y</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.rcs <span class="op">=</span> rcs  <span class="co"># m²</span></span></code></pre></div>
+<p><strong>Computing Return:</strong></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_return(target, radar):</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    dx <span class="op">=</span> target.x <span class="op">-</span> radar.x</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">=</span> target.y <span class="op">-</span> radar.y</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    range_m <span class="op">=</span> sqrt(dx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> dy<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Radar equation (simplified)</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    signal <span class="op">=</span> (radar.power <span class="op">*</span> radar.gain<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> wavelength<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> target.rcs) <span class="op">/</span> <span class="op">\</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>             ((<span class="dv">4</span><span class="op">*</span>pi)<span class="op">**</span><span class="dv">3</span> <span class="op">*</span> range_m<span class="op">**</span><span class="dv">4</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> signal, range_m</span></code></pre></div>
+<h3 id="extended-targets">7.2 Extended Targets</h3>
+<p>Real targets occupy multiple range bins. The radar response depends
+on: - Target physical extent - Pulse length (range resolution) -
+Beamwidth (angular resolution)</p>
+<p><strong>Pulse Length Spreading:</strong></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> spread_signal(sweep, center_bin, signal, pulse_bins):</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Spread signal across bins based on pulse length.&quot;&quot;&quot;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> offset <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span>pulse_bins, pulse_bins <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>        bin_idx <span class="op">=</span> center_bin <span class="op">+</span> offset</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="dv">0</span> <span class="op">&lt;=</span> bin_idx <span class="op">&lt;</span> <span class="bu">len</span>(sweep):</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>            spread_factor <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> <span class="bu">abs</span>(offset) <span class="op">/</span> (pulse_bins <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>            sweep[bin_idx] <span class="op">=</span> <span class="bu">max</span>(sweep[bin_idx], signal <span class="op">*</span> spread_factor)</span></code></pre></div>
+<h3 id="aspect-dependent-rcs">7.3 Aspect-Dependent RCS</h3>
+<p>Ship RCS varies with viewing angle. A simple sinusoidal model:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> aspect_rcs(base_rcs, aspect_angle, variation_db<span class="op">=</span><span class="dv">6</span>):</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">    aspect_angle: 0° = bow, 90° = beam, 180° = stern</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Beam aspect gives maximum RCS</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cosine of twice the angle: peaks at 90° and 270°</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    factor_db <span class="op">=</span> (variation_db <span class="op">/</span> <span class="dv">2</span>) <span class="op">*</span> cos(radians(<span class="dv">2</span> <span class="op">*</span> aspect_angle))</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> base_rcs <span class="op">*</span> (<span class="dv">10</span> <span class="op">**</span> (factor_db <span class="op">/</span> <span class="dv">10</span>))</span></code></pre></div>
+<h3 id="swerling-target-models">7.4 Swerling Target Models</h3>
+<p>Real targets fluctuate due to: - Target motion (slight aspect
+changes) - Multipath interference - Sea surface reflections</p>
+<p><strong>Swerling Types:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Model</th>
+<th>Application</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>Constant RCS</td>
+<td>Calibration targets</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Rayleigh, scan-to-scan</td>
+<td>Small boats, buoys</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>Rayleigh, pulse-to-pulse</td>
+<td>Fast fluctuation</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>Chi-squared (4 DOF), scan-to-scan</td>
+<td>Large ships</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>Chi-squared (4 DOF), pulse-to-pulse</td>
+<td>Complex targets</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Implementation:</strong></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> swerling_fluctuation(swerling_type):</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Return multiplicative RCS fluctuation factor.&quot;&quot;&quot;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> swerling_type <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Rayleigh: exponential power</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.random.exponential(<span class="fl">1.0</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> swerling_type <span class="op">==</span> <span class="dv">3</span>:</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Chi-squared with 4 DOF</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.random.gamma(<span class="fl">2.0</span>, <span class="fl">1.0</span>) <span class="op">/</span> <span class="fl">2.0</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">1.0</span></span></code></pre></div>
+<hr />
+<h2 id="chapter-8-terrain-and-coastline-modeling">Chapter 8: Terrain and
+Coastline Modeling</h2>
+<h3 id="height-maps">8.1 Height Maps</h3>
+<p>Terrain is typically represented as a regular grid of elevation
+values:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> HeightMap:</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, grid, origin_x, origin_y, cell_size):</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.grid <span class="op">=</span> grid  <span class="co"># 2D numpy array</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.origin_x <span class="op">=</span> origin_x</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.origin_y <span class="op">=</span> origin_y</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cell_size <span class="op">=</span> cell_size</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_elevation(<span class="va">self</span>, world_x, world_y):</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Bilinear interpolation of elevation.&quot;&quot;&quot;</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert to grid coordinates</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>        gx <span class="op">=</span> (world_x <span class="op">-</span> <span class="va">self</span>.origin_x) <span class="op">/</span> <span class="va">self</span>.cell_size</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>        gy <span class="op">=</span> (world_y <span class="op">-</span> <span class="va">self</span>.origin_y) <span class="op">/</span> <span class="va">self</span>.cell_size</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Bilinear interpolation</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>        x0, y0 <span class="op">=</span> <span class="bu">int</span>(gx), <span class="bu">int</span>(gy)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>        dx, dy <span class="op">=</span> gx <span class="op">-</span> x0, gy <span class="op">-</span> y0</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>        e00 <span class="op">=</span> <span class="va">self</span>.grid[y0, x0]</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>        e01 <span class="op">=</span> <span class="va">self</span>.grid[y0, x0<span class="op">+</span><span class="dv">1</span>]</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>        e10 <span class="op">=</span> <span class="va">self</span>.grid[y0<span class="op">+</span><span class="dv">1</span>, x0]</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>        e11 <span class="op">=</span> <span class="va">self</span>.grid[y0<span class="op">+</span><span class="dv">1</span>, x0<span class="op">+</span><span class="dv">1</span>]</span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (e00<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>dx)<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>dy) <span class="op">+</span> e01<span class="op">*</span>dx<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>dy) <span class="op">+</span></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>                e10<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>dx)<span class="op">*</span>dy <span class="op">+</span> e11<span class="op">*</span>dx<span class="op">*</span>dy)</span></code></pre></div>
+<h3 id="line-of-sight-los-calculation">8.2 Line-of-Sight (LOS)
+Calculation</h3>
+<p>Terrain can block radar signals. LOS checking uses <strong>ray
+marching</strong>:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_occluded(radar_pos, target_pos, terrain, antenna_height):</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Check if terrain blocks line-of-sight to target.&quot;&quot;&quot;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    dx <span class="op">=</span> target_pos.x <span class="op">-</span> radar_pos.x</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">=</span> target_pos.y <span class="op">-</span> radar_pos.y</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    distance <span class="op">=</span> sqrt(dx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> dy<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Unit vector toward target</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    ux, uy <span class="op">=</span> dx<span class="op">/</span>distance, dy<span class="op">/</span>distance</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Angle to target top</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    target_angle <span class="op">=</span> atan2(target_pos.height <span class="op">-</span> antenna_height, distance)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># March along ray, checking terrain</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    max_terrain_angle <span class="op">=</span> <span class="op">-</span><span class="dv">90</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    step <span class="op">=</span> <span class="dv">50</span>  <span class="co"># meters</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> d <span class="kw">in</span> <span class="bu">range</span>(step, <span class="bu">int</span>(distance), step):</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>        wx <span class="op">=</span> radar_pos.x <span class="op">+</span> ux <span class="op">*</span> d</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>        wy <span class="op">=</span> radar_pos.y <span class="op">+</span> uy <span class="op">*</span> d</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>        elev <span class="op">=</span> terrain.get_elevation(wx, wy)</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>        angle <span class="op">=</span> atan2(elev <span class="op">-</span> antenna_height, d)</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>        max_terrain_angle <span class="op">=</span> <span class="bu">max</span>(max_terrain_angle, angle)</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> max_terrain_angle <span class="op">&gt;</span> target_angle</span></code></pre></div>
+<h3 id="terrain-radar-returns">8.3 Terrain Radar Returns</h3>
+<p>Terrain produces strong radar returns. The key factors:</p>
+<ol type="1">
+<li><strong>Visibility:</strong> Only terrain visible from the antenna
+reflects</li>
+<li><strong>Shadowing:</strong> Terrain behind higher terrain is
+shadowed</li>
+<li><strong>Grazing angle:</strong> Steeper angles give stronger
+returns</li>
+</ol>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_terrain_returns(radar, terrain, bearing, num_bins):</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Generate radar returns from terrain along a bearing.&quot;&quot;&quot;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    returns <span class="op">=</span> np.zeros(num_bins)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    ray_rad <span class="op">=</span> radians(bearing)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    ux, uy <span class="op">=</span> sin(ray_rad), cos(ray_rad)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    max_angle <span class="op">=</span> <span class="op">-</span><span class="dv">90</span>  <span class="co"># Track maximum elevation angle seen</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> bin_idx <span class="kw">in</span> <span class="bu">range</span>(num_bins):</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>        distance <span class="op">=</span> (bin_idx <span class="op">+</span> <span class="fl">0.5</span>) <span class="op">*</span> bin_size</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>        wx <span class="op">=</span> radar.x <span class="op">+</span> ux <span class="op">*</span> distance</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>        wy <span class="op">=</span> radar.y <span class="op">+</span> uy <span class="op">*</span> distance</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>        elev <span class="op">=</span> terrain.get_elevation(wx, wy)</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> elev <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>        angle <span class="op">=</span> degrees(atan2(elev <span class="op">-</span> radar.antenna_height, distance))</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> angle <span class="op">&gt;=</span> max_angle:</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Visible terrain - produces return</span></span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>            max_angle <span class="op">=</span> angle</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>            intensity <span class="op">=</span> <span class="fl">0.85</span> <span class="op">*</span> <span class="bu">min</span>(<span class="fl">1.0</span>, elev <span class="op">/</span> <span class="fl">50.0</span>)</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>            returns[bin_idx] <span class="op">=</span> intensity</span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># else: shadowed, no return</span></span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> returns</span></code></pre></div>
+<h3 id="coastline-modeling">8.4 Coastline Modeling</h3>
+<p>Coastlines are represented as polygons. The simulation determines
+which range bins are “on land.”</p>
+<p><strong>Ray-Polygon Intersection:</strong></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ray_polygon_intersections(origin, bearing, polygon, max_range):</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Find all distances where ray intersects polygon edges.&quot;&quot;&quot;</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    ray_rad <span class="op">=</span> radians(bearing)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    dx, dy <span class="op">=</span> sin(ray_rad), cos(ray_rad)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    distances <span class="op">=</span> []</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(polygon) <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>        p1, p2 <span class="op">=</span> polygon[i], polygon[i<span class="op">+</span><span class="dv">1</span>]</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Line segment: p1 + u*(p2-p1), u ∈ [0,1]</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ray: origin + t*(dx,dy), t &gt; 0</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>        sx, sy <span class="op">=</span> p2.x <span class="op">-</span> p1.x, p2.y <span class="op">-</span> p1.y</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>        denom <span class="op">=</span> dx<span class="op">*</span>sy <span class="op">-</span> dy<span class="op">*</span>sx</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">abs</span>(denom) <span class="op">&lt;</span> <span class="fl">1e-10</span>:</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span>  <span class="co"># Parallel</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>        t <span class="op">=</span> ((p1.x <span class="op">-</span> origin.x)<span class="op">*</span>sy <span class="op">-</span> (p1.y <span class="op">-</span> origin.y)<span class="op">*</span>sx) <span class="op">/</span> denom</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>        u <span class="op">=</span> ((p1.x <span class="op">-</span> origin.x)<span class="op">*</span>dy <span class="op">-</span> (p1.y <span class="op">-</span> origin.y)<span class="op">*</span>dx) <span class="op">/</span> denom</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> t <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> <span class="dv">0</span> <span class="op">&lt;=</span> u <span class="op">&lt;=</span> <span class="dv">1</span> <span class="kw">and</span> t <span class="op">&lt;=</span> max_range:</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>            distances.append(t)</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sorted</span>(distances)</span></code></pre></div>
+<p><strong>Even-Odd Fill Rule:</strong></p>
+<p>With intersection distances, apply even-odd rule to determine land
+bins:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fill_land_bins(distances, bin_size, num_bins):</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Fill bins that are inside land using even-odd rule.&quot;&quot;&quot;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    returns <span class="op">=</span> np.zeros(num_bins)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&lt;</span> <span class="bu">len</span>(distances):</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        enter <span class="op">=</span> distances[i]</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        exit <span class="op">=</span> distances[i<span class="op">+</span><span class="dv">1</span>] <span class="cf">if</span> i<span class="op">+</span><span class="dv">1</span> <span class="op">&lt;</span> <span class="bu">len</span>(distances) <span class="cf">else</span> max_range</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>        i <span class="op">+=</span> <span class="dv">2</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>        start_bin <span class="op">=</span> <span class="bu">int</span>(enter <span class="op">/</span> bin_size)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>        end_bin <span class="op">=</span> <span class="bu">int</span>(exit <span class="op">/</span> bin_size) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>        returns[start_bin:end_bin] <span class="op">=</span> <span class="fl">0.9</span>  <span class="co"># Land reflectivity</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> returns</span></code></pre></div>
+<hr />
+<h1 id="part-iii-real-world-applications">Part III: Real-World
+Applications</h1>
+<h2 id="chapter-9-why-simulate-radar">Chapter 9: Why Simulate
+Radar?</h2>
+<h3 id="training-and-education">9.1 Training and Education</h3>
+<p><strong>Applications:</strong> - Maritime academy training - Military
+operator certification - Recreational boating courses - Air traffic
+controller training</p>
+<p><strong>Benefits:</strong> - No weather dependencies - Repeatable
+scenarios - Safe training environment - Cost-effective (no fuel, no
+vessel)</p>
+<h3 id="system-development">9.2 System Development</h3>
+<p><strong>Hardware Development:</strong> - Test signal processing
+algorithms before hardware exists - Evaluate antenna designs - Optimize
+transmitter parameters</p>
+<p><strong>Software Development:</strong> - Develop display systems -
+Test tracking algorithms - Validate ARPA (Automatic Radar Plotting Aid)
+logic</p>
+<h3 id="research-and-analysis">9.3 Research and Analysis</h3>
+<p><strong>Academic Research:</strong> - Study detection performance
+under various conditions - Develop new signal processing techniques -
+Validate theoretical models</p>
+<p><strong>Operational Research:</strong> - Evaluate coverage patterns -
+Plan radar placement - Assess detection probability for specific
+scenarios</p>
+<h3 id="acceptance-testing">9.4 Acceptance Testing</h3>
+<p>Before deploying real radar systems: - Verify specifications are met
+- Ensure consistent behavior across conditions - Document performance
+characteristics</p>
+<hr />
+<h2 id="chapter-10-existing-research-and-systems">Chapter 10: Existing
+Research and Systems</h2>
+<h3 id="academic-radar-simulators">10.1 Academic Radar Simulators</h3>
+<p><strong>MIT Lincoln Laboratory:</strong> - Long history of radar
+simulation research - Focus on military applications - Developed
+foundational algorithms still used today</p>
+<p><strong>Georgia Tech Research Institute:</strong> - Radar Signature
+Modeling and Simulation - Focus on RCS prediction - Extensive target
+libraries</p>
+<p><strong>University of Kansas:</strong> - Synthetic Aperture Radar
+simulation - Ice-penetrating radar research - Open-source tools</p>
+<h3 id="commercial-simulators">10.2 Commercial Simulators</h3>
+<p><strong>NORCONTROL (Kongsberg):</strong> - Market leader in maritime
+simulation - Full-mission bridge simulators - Integrated radar with ship
+handling</p>
+<p><strong>Transas (Wärtsilä):</strong> - Type-approved training
+simulators - GMDSS integration - ECDIS/radar overlay</p>
+<p><strong>CAE:</strong> - Military radar simulation - Sensor fusion
+training - Distributed interactive simulation (DIS) compatible</p>
+<h3 id="open-source-projects">10.3 Open-Source Projects</h3>
+<p><strong>GnuRadio:</strong> - Software-defined radio framework - Basic
+radar signal processing blocks - Extensible for custom applications</p>
+<p><strong>OpenRadar:</strong> - Educational radar simulator - Focus on
+signal processing concepts - Python-based</p>
+<h3 id="key-research-papers">10.4 Key Research Papers</h3>
+<p><strong>Foundational:</strong> 1. Barton, D.K. “Radar System
+Analysis” - Comprehensive reference 2. Skolnik, M.I. “Introduction to
+Radar Systems” - Standard textbook 3. Richards, M.A. “Fundamentals of
+Radar Signal Processing” - Modern treatment</p>
+<p><strong>Clutter Modeling:</strong> 1. Ward, K.D. “Sea Clutter:
+Scattering, the K Distribution and Radar Performance” - Definitive
+K-distribution reference 2. Watts, S. “Modeling and Simulation of
+Coherent Sea Clutter” - Advanced techniques</p>
+<p><strong>Terrain Effects:</strong> 1. Barton, D.K. “Radar Equations
+for Modern Radar” - Including propagation 2. Blake, L.V. “Radar
+Range-Performance Analysis” - Environmental effects</p>
+<hr />
+<h2 id="chapter-11-validation-methodology">Chapter 11: Validation
+Methodology</h2>
+<h3 id="why-validate">11.1 Why Validate?</h3>
+<p>A simulator is only useful if it produces <strong>realistic</strong>
+results. Validation compares simulator output against: - Real radar
+captures - Theoretical predictions - Expert assessment</p>
+<h3 id="quantitative-metrics">11.2 Quantitative Metrics</h3>
+<p><strong>Root Mean Square Error (RMSE):</strong></p>
+<pre><code>RMSE = √(Σ(simulated - real)² / N)
+
+Lower is better. Typical values:
+- Excellent: RMSE &lt; 0.05
+- Good: RMSE &lt; 0.10
+- Acceptable: RMSE &lt; 0.15</code></pre>
+<p><strong>Pearson Correlation:</strong></p>
+<pre><code>r = Σ((x - x̄)(y - ȳ)) / √(Σ(x - x̄)² × Σ(y - ȳ)²)
+
+Ranges from -1 to +1:
+- Excellent: r &gt; 0.95
+- Good: r &gt; 0.85
+- Acceptable: r &gt; 0.70</code></pre>
+<p><strong>Structural Similarity Index (SSIM):</strong></p>
+<p>Measures perceptual similarity, considering luminance, contrast, and
+structure:</p>
+<pre><code>SSIM = (2μₓμᵧ + C₁)(2σₓᵧ + C₂) / (μₓ² + μᵧ² + C₁)(σₓ² + σᵧ² + C₂)
+
+Ranges from 0 to 1:
+- Excellent: SSIM &gt; 0.90
+- Good: SSIM &gt; 0.75
+- Acceptable: SSIM &gt; 0.60</code></pre>
+<h3 id="qualitative-assessment">11.3 Qualitative Assessment</h3>
+<p>Numbers don’t tell the whole story. Expert review considers:</p>
+<ul>
+<li>Does clutter “look” realistic?</li>
+<li>Are target returns believable?</li>
+<li>Do coastlines appear correct?</li>
+<li>Is the overall “feel” right?</li>
+</ul>
+<h3 id="validation-process">11.4 Validation Process</h3>
+<ol type="1">
+<li><strong>Collect reference data:</strong> Real radar captures with
+known conditions</li>
+<li><strong>Configure simulator:</strong> Match radar parameters, range,
+gain</li>
+<li><strong>Generate synthetic data:</strong> Run simulation with
+equivalent scenario</li>
+<li><strong>Compute metrics:</strong> RMSE, correlation, SSIM</li>
+<li><strong>Visual comparison:</strong> Side-by-side examination</li>
+<li><strong>Iterate:</strong> Adjust simulator parameters,
+re-validate</li>
+</ol>
+<hr />
+<h2 id="chapter-12-practical-considerations">Chapter 12: Practical
+Considerations</h2>
+<h3 id="performance-requirements">12.1 Performance Requirements</h3>
+<p><strong>Real-time display:</strong> - 24 RPM antenna → 2.5
+seconds/rotation - 4096 bearings → 1.6 ms per sweep maximum - 512 range
+bins → processing 320,000 samples/second</p>
+<p><strong>Batch processing:</strong> - Training data generation:
+throughput matters - May sacrifice real-time for accuracy</p>
+<h3 id="accuracy-vs.-speed-trade-offs">12.2 Accuracy vs. Speed
+Trade-offs</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Accurate</th>
+<th>Fast</th>
+<th>Balanced</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sub-rays per bearing</td>
+<td>9</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>Ray-march step</td>
+<td>10m</td>
+<td>100m</td>
+<td>50m</td>
+</tr>
+<tr class="odd">
+<td>RCS fluctuation</td>
+<td>Swerling 1-4</td>
+<td>None</td>
+<td>Swerling 1</td>
+</tr>
+<tr class="even">
+<td>Clutter model</td>
+<td>K-distribution</td>
+<td>Gaussian</td>
+<td>K-distribution</td>
+</tr>
+</tbody>
+</table>
+<h3 id="data-sources">12.3 Data Sources</h3>
+<p><strong>Terrain Elevation:</strong> - SRTM (Shuttle Radar Topography
+Mission) - 30m resolution, free - NASADEM - Improved SRTM - ASTER GDEM -
+Alternative global DEM - National sources (USGS NED, etc.)</p>
+<p><strong>Coastline Data:</strong> - OpenStreetMap - Free, global,
+variable quality - GSHHG (Global Self-consistent Hierarchical
+High-resolution Geography) - National hydrographic offices</p>
+<p><strong>Target Information:</strong> - AIS (Automatic Identification
+System) for ship positions - Published RCS data for common vessel
+types</p>
+<h3 id="computational-optimization">12.4 Computational Optimization</h3>
+<p>Key techniques used in our simulator:</p>
+<ol type="1">
+<li><strong>NumPy Vectorization:</strong> Replace Python loops with
+array operations</li>
+<li><strong>Caching:</strong> Store repeated calculations (occlusion
+results)</li>
+<li><strong>Batch Operations:</strong> Process multiple points
+simultaneously</li>
+<li><strong>Level of Detail:</strong> Reduce accuracy for
+distant/unimportant features</li>
+</ol>
+<hr />
+<h1 id="appendices">Appendices</h1>
+<h2 id="appendix-a-mathematical-reference">Appendix A: Mathematical
+Reference</h2>
+<h3 id="coordinate-transformations">Coordinate Transformations</h3>
+<pre><code># Polar to Cartesian
+x = r × sin(θ)
+y = r × cos(θ)
+
+# Cartesian to Polar
+r = √(x² + y²)
+θ = atan2(x, y)
+
+# Degrees to Radians
+rad = deg × π / 180
+
+# Radians to Degrees
+deg = rad × 180 / π</code></pre>
+<h3 id="decibel-conversions">Decibel Conversions</h3>
+<pre><code># Linear to dB (power)
+dB = 10 × log₁₀(linear)
+
+# dB to Linear (power)
+linear = 10^(dB/10)
+
+# Linear to dB (voltage/amplitude)
+dB = 20 × log₁₀(linear)</code></pre>
+<h3 id="statistical-distributions">Statistical Distributions</h3>
+<p><strong>Rayleigh:</strong></p>
+<pre><code>PDF: f(x) = (x/σ²) × exp(-x²/(2σ²))
+Mean: σ√(π/2)
+Variance: (2 - π/2)σ²</code></pre>
+<p><strong>Exponential:</strong></p>
+<pre><code>PDF: f(x) = λ × exp(-λx)
+Mean: 1/λ
+Variance: 1/λ²</code></pre>
+<p><strong>Gamma:</strong></p>
+<pre><code>PDF: f(x) = x^(k-1) × exp(-x/θ) / (θ^k × Γ(k))
+Mean: kθ
+Variance: kθ²</code></pre>
+<h2 id="appendix-b-glossary">Appendix B: Glossary</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AIS</td>
+<td>Automatic Identification System - ship transponder system</td>
+</tr>
+<tr class="even">
+<td>ARPA</td>
+<td>Automatic Radar Plotting Aid - target tracking</td>
+</tr>
+<tr class="odd">
+<td>Bearing</td>
+<td>Horizontal angle, typically from North</td>
+</tr>
+<tr class="even">
+<td>Beamwidth</td>
+<td>Angular width of antenna pattern at -3dB</td>
+</tr>
+<tr class="odd">
+<td>CFAR</td>
+<td>Constant False Alarm Rate adaptive thresholding</td>
+</tr>
+<tr class="even">
+<td>Clutter</td>
+<td>Unwanted radar returns (sea, rain, land)</td>
+</tr>
+<tr class="odd">
+<td>dB</td>
+<td>Decibel - logarithmic power ratio</td>
+</tr>
+<tr class="even">
+<td>dBm</td>
+<td>Decibels relative to 1 milliwatt</td>
+</tr>
+<tr class="odd">
+<td>dBsm</td>
+<td>Decibels relative to 1 square meter (RCS)</td>
+</tr>
+<tr class="even">
+<td>Gain</td>
+<td>Antenna directivity expressed as power ratio</td>
+</tr>
+<tr class="odd">
+<td>LOS</td>
+<td>Line of Sight</td>
+</tr>
+<tr class="even">
+<td>NM</td>
+<td>Nautical Mile (1852 meters)</td>
+</tr>
+<tr class="odd">
+<td>PPI</td>
+<td>Plan Position Indicator - standard radar display</td>
+</tr>
+<tr class="even">
+<td>PRF</td>
+<td>Pulse Repetition Frequency</td>
+</tr>
+<tr class="odd">
+<td>PRI</td>
+<td>Pulse Repetition Interval</td>
+</tr>
+<tr class="even">
+<td>RCS</td>
+<td>Radar Cross Section</td>
+</tr>
+<tr class="odd">
+<td>SNR</td>
+<td>Signal-to-Noise Ratio</td>
+</tr>
+<tr class="even">
+<td>STC</td>
+<td>Sensitivity Time Control - near-range gain reduction</td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix-c-further-reading">Appendix C: Further Reading</h2>
+<p><strong>Books:</strong> 1. Skolnik, M.I. “Introduction to Radar
+Systems” 3rd Ed. - The standard textbook 2. Richards, M.A. “Fundamentals
+of Radar Signal Processing” 2nd Ed. 3. Mahafza, B.R. “Radar Systems
+Analysis and Design Using MATLAB”</p>
+<p><strong>Online Resources:</strong> 1. MIT OpenCourseWare - Radar
+course materials 2. IEEE Xplore - Research papers 3. Radar Tutorial
+(radartutorial.eu) - Free educational content</p>
+<p><strong>Standards:</strong> 1. IMO Performance Standards for Radar
+Equipment 2. IEC 62388 - Maritime navigation and radiocommunication
+equipment</p>
+<hr />
+<p><em>This intermediate guide provides the foundation for understanding
+radar simulation. The Professional Guide builds on these concepts with
+advanced mathematics, detailed algorithms, and industry-standard
+practices.</em></p>
+</body>
+</html>

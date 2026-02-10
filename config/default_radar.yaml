@@ -1,0 +1,37 @@
+# Default radar configuration
+
+radar:
+  max_range: 20000      # Maximum range in meters (~10.8 nm)
+  min_range: 50         # Minimum range in meters
+  frequency: 9.4        # Radar frequency in GHz (X-band)
+  transmit_power: 25.0  # Transmit power in kW
+  pulse_width: 0.08     # Pulse duration in microseconds
+  rotation_rate: 24.0   # Antenna rotation rate in RPM
+  beam_width: 1.2       # Horizontal beam width in degrees
+  antenna_gain: 30.0    # Antenna gain in dB
+  gain: 30.0            # Receiver gain in dB (adjustable)
+  noise_figure: 3.0     # Receiver noise figure in dB
+  detection_threshold: 13.0  # SNR threshold for detection in dB
+  antenna_height: 20.0  # Antenna height above sea level in meters
+
+environment:
+  sea_state: 3          # Sea state (0-9 Beaufort scale)
+  wind_speed: 15.0      # Wind speed in knots
+  wind_direction: 0.0   # Wind direction in degrees (0=North)
+  rain_rate: 0.0        # Rain rate in mm/hr (0=no rain)
+  temperature: 15.0     # Temperature in Celsius
+  humidity: 75.0        # Relative humidity in %
+  atmospheric_pressure: 1013.25  # Atmospheric pressure in hPa
+
+display:
+  window_width: 1200    # Window width in pixels
+  window_height: 1000   # Window height in pixels
+  ppi_size: 800         # PPI display diameter in pixels
+  range_ring_interval: 2000.0  # Meters between range rings
+  show_range_rings: true
+  bearing_marker_interval: 30.0  # Degrees between bearing markers
+  show_bearing_markers: true
+  trail_persistence: 20.0  # Trail persistence time in seconds
+  trail_fade_rate: 0.02    # Fade rate per frame (0.02 = 98% retention)
+  target_fps: 60        # Target frames per second
+  color_scheme: "classic_green"  # Color scheme (classic_green, blue, amber)

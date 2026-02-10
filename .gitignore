@@ -1,0 +1,40 @@
+# Data outputs (large files)
+CSV data/*.csv
+Training Data/
+Calibration/
+Validation Outputs/*.json
+Locations/*.radarloc
+Advanced Simulator CSV Outputs/
+Advanced Simulator PPI Images/
+Radar Simulator CSV Outputs/
+
+# Images
+*.png
+*.jpg
+*.jpeg
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.env
+
+# Windows
+desktop.ini
+Thumbs.db
+*.lnk
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Temp
+*.tmp
+*.log
+*.bak

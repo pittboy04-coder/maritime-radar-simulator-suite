@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Radar Simulation: Professional Reference Guide</title>
+  <style>
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+background-color: #1a1a1a;
+border: none;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Radar Simulation: Professional Reference Guide</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#radar-simulation-professional-reference-guide" id="toc-radar-simulation-professional-reference-guide">Radar Simulation:
+Professional Reference Guide</a>
+<ul>
+<li><a href="#advanced-theory-implementation-and-industry-practice" id="toc-advanced-theory-implementation-and-industry-practice">Advanced
+Theory, Implementation, and Industry Practice</a></li>
+</ul></li>
+<li><a href="#part-i-advanced-radar-theory" id="toc-part-i-advanced-radar-theory">Part I: Advanced Radar Theory</a>
+<ul>
+<li><a href="#chapter-1-the-complete-radar-equation" id="toc-chapter-1-the-complete-radar-equation">Chapter 1: The Complete
+Radar Equation</a>
+<ul>
+<li><a href="#full-form-with-all-loss-factors" id="toc-full-form-with-all-loss-factors">1.1 Full Form with All Loss
+Factors</a></li>
+<li><a href="#loss-factor-analysis" id="toc-loss-factor-analysis">1.2
+Loss Factor Analysis</a></li>
+<li><a href="#pattern-propagation-factor-f" id="toc-pattern-propagation-factor-f">1.3 Pattern Propagation Factor
+(F)</a></li>
+<li><a href="#minimum-detectable-signal" id="toc-minimum-detectable-signal">1.4 Minimum Detectable
+Signal</a></li>
+<li><a href="#maximum-detection-range" id="toc-maximum-detection-range">1.5 Maximum Detection Range</a></li>
+</ul></li>
+<li><a href="#chapter-2-advanced-target-modeling" id="toc-chapter-2-advanced-target-modeling">Chapter 2: Advanced Target
+Modeling</a>
+<ul>
+<li><a href="#detailed-swerling-models" id="toc-detailed-swerling-models">2.1 Detailed Swerling Models</a></li>
+<li><a href="#physical-optics-rcs-prediction" id="toc-physical-optics-rcs-prediction">2.2 Physical Optics RCS
+Prediction</a></li>
+<li><a href="#multipath-and-sea-surface-interaction" id="toc-multipath-and-sea-surface-interaction">2.3 Multipath and Sea
+Surface Interaction</a></li>
+</ul></li>
+<li><a href="#chapter-3-advanced-clutter-modeling" id="toc-chapter-3-advanced-clutter-modeling">Chapter 3: Advanced Clutter
+Modeling</a>
+<ul>
+<li><a href="#k-distribution-theory" id="toc-k-distribution-theory">3.1
+K-Distribution Theory</a></li>
+<li><a href="#spatial-and-temporal-correlation" id="toc-spatial-and-temporal-correlation">3.2 Spatial and Temporal
+Correlation</a></li>
+<li><a href="#wind-and-wave-direction-effects" id="toc-wind-and-wave-direction-effects">3.3 Wind and Wave Direction
+Effects</a></li>
+<li><a href="#range-dependent-clutter-behavior" id="toc-range-dependent-clutter-behavior">3.4 Range-Dependent Clutter
+Behavior</a></li>
+</ul></li>
+<li><a href="#chapter-4-propagation-and-environmental-effects" id="toc-chapter-4-propagation-and-environmental-effects">Chapter 4:
+Propagation and Environmental Effects</a>
+<ul>
+<li><a href="#refraction-and-earth-curvature" id="toc-refraction-and-earth-curvature">4.1 Refraction and Earth
+Curvature</a></li>
+<li><a href="#atmospheric-ducting" id="toc-atmospheric-ducting">4.2
+Atmospheric Ducting</a></li>
+<li><a href="#rain-attenuation-and-backscatter" id="toc-rain-attenuation-and-backscatter">4.3 Rain Attenuation and
+Backscatter</a></li>
+</ul></li>
+<li><a href="#chapter-5-advanced-signal-processing" id="toc-chapter-5-advanced-signal-processing">Chapter 5: Advanced Signal
+Processing</a>
+<ul>
+<li><a href="#pulse-compression" id="toc-pulse-compression">5.1 Pulse
+Compression</a></li>
+<li><a href="#moving-target-indication-mti" id="toc-moving-target-indication-mti">5.2 Moving Target Indication
+(MTI)</a></li>
+<li><a href="#cfar-detection" id="toc-cfar-detection">5.3 CFAR
+Detection</a></li>
+<li><a href="#integration-techniques" id="toc-integration-techniques">5.4 Integration Techniques</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#part-ii-advanced-simulation-techniques" id="toc-part-ii-advanced-simulation-techniques">Part II: Advanced
+Simulation Techniques</a>
+<ul>
+<li><a href="#chapter-6-terrain-modeling-and-occlusion" id="toc-chapter-6-terrain-modeling-and-occlusion">Chapter 6: Terrain
+Modeling and Occlusion</a>
+<ul>
+<li><a href="#digital-elevation-models" id="toc-digital-elevation-models">6.1 Digital Elevation Models</a></li>
+<li><a href="#efficient-ray-terrain-intersection" id="toc-efficient-ray-terrain-intersection">6.2 Efficient Ray-Terrain
+Intersection</a></li>
+<li><a href="#fresnel-zone-effects" id="toc-fresnel-zone-effects">6.3
+Fresnel Zone Effects</a></li>
+<li><a href="#diffraction-over-terrain" id="toc-diffraction-over-terrain">6.4 Diffraction Over Terrain</a></li>
+</ul></li>
+<li><a href="#chapter-7-coastline-and-water-body-processing" id="toc-chapter-7-coastline-and-water-body-processing">Chapter 7:
+Coastline and Water Body Processing</a>
+<ul>
+<li><a href="#coastline-data-sources" id="toc-coastline-data-sources">7.1 Coastline Data Sources</a></li>
+<li><a href="#polygon-simplification" id="toc-polygon-simplification">7.2 Polygon Simplification</a></li>
+<li><a href="#efficient-polygon-testing" id="toc-efficient-polygon-testing">7.3 Efficient Polygon
+Testing</a></li>
+<li><a href="#vectorized-ray-polygon-intersection" id="toc-vectorized-ray-polygon-intersection">7.4 Vectorized Ray-Polygon
+Intersection</a></li>
+</ul></li>
+<li><a href="#chapter-8-validation-framework" id="toc-chapter-8-validation-framework">Chapter 8: Validation
+Framework</a>
+<ul>
+<li><a href="#statistical-validation" id="toc-statistical-validation">8.1 Statistical Validation</a></li>
+<li><a href="#perceptual-quality-metrics" id="toc-perceptual-quality-metrics">8.2 Perceptual Quality
+Metrics</a></li>
+<li><a href="#target-detection-validation" id="toc-target-detection-validation">8.3 Target Detection
+Validation</a></li>
+<li><a href="#comprehensive-validation-report" id="toc-comprehensive-validation-report">8.4 Comprehensive Validation
+Report</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#part-iii-industry-standards-and-practice" id="toc-part-iii-industry-standards-and-practice">Part III: Industry
+Standards and Practice</a>
+<ul>
+<li><a href="#chapter-9-maritime-radar-standards" id="toc-chapter-9-maritime-radar-standards">Chapter 9: Maritime Radar
+Standards</a>
+<ul>
+<li><a href="#imo-performance-standards" id="toc-imo-performance-standards">9.1 IMO Performance
+Standards</a></li>
+<li><a href="#iec-62388-standard" id="toc-iec-62388-standard">9.2 IEC
+62388 Standard</a></li>
+<li><a href="#furuno-radar-specifics" id="toc-furuno-radar-specifics">9.3 Furuno Radar Specifics</a></li>
+</ul></li>
+<li><a href="#chapter-10-professional-applications" id="toc-chapter-10-professional-applications">Chapter 10: Professional
+Applications</a>
+<ul>
+<li><a href="#maritime-training-simulation" id="toc-maritime-training-simulation">10.1 Maritime Training
+Simulation</a></li>
+<li><a href="#naval-and-defense-applications" id="toc-naval-and-defense-applications">10.2 Naval and Defense
+Applications</a></li>
+<li><a href="#weather-radar-applications" id="toc-weather-radar-applications">10.3 Weather Radar
+Applications</a></li>
+<li><a href="#autonomous-systems" id="toc-autonomous-systems">10.4
+Autonomous Systems</a></li>
+</ul></li>
+<li><a href="#chapter-11-research-frontiers" id="toc-chapter-11-research-frontiers">Chapter 11: Research
+Frontiers</a>
+<ul>
+<li><a href="#machine-learning-in-radar" id="toc-machine-learning-in-radar">11.1 Machine Learning in
+Radar</a></li>
+<li><a href="#cognitive-radar" id="toc-cognitive-radar">11.2 Cognitive
+Radar</a></li>
+<li><a href="#mimo-radar" id="toc-mimo-radar">11.3 MIMO Radar</a></li>
+<li><a href="#quantum-radar" id="toc-quantum-radar">11.4 Quantum
+Radar</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#appendices" id="toc-appendices">Appendices</a>
+<ul>
+<li><a href="#appendix-a-complete-radar-equation-derivation" id="toc-appendix-a-complete-radar-equation-derivation">Appendix A:
+Complete Radar Equation Derivation</a>
+<ul>
+<li><a href="#step-by-step-mathematical-derivation" id="toc-step-by-step-mathematical-derivation">Step-by-Step Mathematical
+Derivation</a></li>
+</ul></li>
+<li><a href="#appendix-b-simulation-code-architecture" id="toc-appendix-b-simulation-code-architecture">Appendix B: Simulation
+Code Architecture</a>
+<ul>
+<li><a href="#recommended-module-structure" id="toc-recommended-module-structure">Recommended Module
+Structure</a></li>
+</ul></li>
+<li><a href="#appendix-c-performance-benchmarks" id="toc-appendix-c-performance-benchmarks">Appendix C: Performance
+Benchmarks</a>
+<ul>
+<li><a href="#typical-operation-times-numpy-optimized" id="toc-typical-operation-times-numpy-optimized">Typical Operation Times
+(NumPy Optimized)</a></li>
+<li><a href="#memory-requirements" id="toc-memory-requirements">Memory
+Requirements</a></li>
+</ul></li>
+<li><a href="#appendix-d-references" id="toc-appendix-d-references">Appendix D: References</a>
+<ul>
+<li><a href="#foundational-textbooks" id="toc-foundational-textbooks">Foundational Textbooks</a></li>
+<li><a href="#sea-clutter" id="toc-sea-clutter">Sea Clutter</a></li>
+<li><a href="#terrain-and-propagation" id="toc-terrain-and-propagation">Terrain and Propagation</a></li>
+<li><a href="#standards" id="toc-standards">Standards</a></li>
+<li><a href="#research-papers" id="toc-research-papers">Research
+Papers</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="radar-simulation-professional-reference-guide">Radar Simulation:
+Professional Reference Guide</h1>
+<h2 id="advanced-theory-implementation-and-industry-practice">Advanced
+Theory, Implementation, and Industry Practice</h2>
+<hr />
+<h1 id="part-i-advanced-radar-theory">Part I: Advanced Radar Theory</h1>
+<h2 id="chapter-1-the-complete-radar-equation">Chapter 1: The Complete
+Radar Equation</h2>
+<h3 id="full-form-with-all-loss-factors">1.1 Full Form with All Loss
+Factors</h3>
+<p>The simplified radar equation obscures many real-world factors. The
+complete form:</p>
+<pre><code>P_r = (P_t × G_t × G_r × λ² × σ × F⁴) / ((4π)³ × R⁴ × L_t × L_r × L_atm × L_proc)
+
+Where:
+  P_r     = Received power (W)
+  P_t     = Peak transmitted power (W)
+  G_t     = Transmit antenna gain
+  G_r     = Receive antenna gain
+  λ       = Wavelength (m)
+  σ       = Radar Cross Section (m²)
+  F       = Pattern propagation factor
+  R       = Range (m)
+  L_t     = Transmit losses (waveguide, radome, etc.)
+  L_r     = Receive losses
+  L_atm   = Atmospheric attenuation
+  L_proc  = Signal processing losses</code></pre>
+<h3 id="loss-factor-analysis">1.2 Loss Factor Analysis</h3>
+<p><strong>Transmit Path Losses (L_t):</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Typical Loss</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Waveguide</td>
+<td>0.5-2 dB</td>
+<td>Length dependent</td>
+</tr>
+<tr class="even">
+<td>Rotary joint</td>
+<td>0.3-0.5 dB</td>
+<td>Marine radar specific</td>
+</tr>
+<tr class="odd">
+<td>Radome</td>
+<td>0.5-1.5 dB</td>
+<td>Material and wet/dry</td>
+</tr>
+<tr class="even">
+<td>Connectors</td>
+<td>0.1-0.3 dB</td>
+<td>Per connection</td>
+</tr>
+<tr class="odd">
+<td><strong>Total typical</strong></td>
+<td><strong>1.5-4 dB</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Receive Path Losses (L_r):</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Typical Loss</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Radome (return path)</td>
+<td>0.5-1.5 dB</td>
+<td>Same as transmit</td>
+</tr>
+<tr class="even">
+<td>Preselector filter</td>
+<td>0.5-1 dB</td>
+<td>If present</td>
+</tr>
+<tr class="odd">
+<td>T/R switch</td>
+<td>0.5-1 dB</td>
+<td>Duplexer</td>
+</tr>
+<tr class="even">
+<td><strong>Total typical</strong></td>
+<td><strong>1.5-3.5 dB</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Atmospheric Attenuation (L_atm):</strong></p>
+<p>For X-band (9.4 GHz) under various conditions:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Condition</th>
+<th>Attenuation (dB/km one-way)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Clear air</td>
+<td>0.01</td>
+</tr>
+<tr class="even">
+<td>Fog</td>
+<td>0.05-0.1</td>
+</tr>
+<tr class="odd">
+<td>Light rain (2 mm/hr)</td>
+<td>0.02</td>
+</tr>
+<tr class="even">
+<td>Moderate rain (10 mm/hr)</td>
+<td>0.1</td>
+</tr>
+<tr class="odd">
+<td>Heavy rain (50 mm/hr)</td>
+<td>0.8</td>
+</tr>
+<tr class="even">
+<td>Extreme rain (100 mm/hr)</td>
+<td>2.0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Two-way attenuation:</strong></p>
+<pre><code>L_atm(dB) = 2 × α × R
+
+Where α = specific attenuation (dB/km)
+      R = range (km)</code></pre>
+<p><strong>Signal Processing Losses (L_proc):</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Typical Loss</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A/D quantization</td>
+<td>0.5-1 dB</td>
+<td>Depends on bit depth</td>
+</tr>
+<tr class="even">
+<td>Filter mismatch</td>
+<td>0.5-1 dB</td>
+<td>Non-ideal matched filter</td>
+</tr>
+<tr class="odd">
+<td>Integration loss</td>
+<td>0.5-2 dB</td>
+<td>Non-coherent integration</td>
+</tr>
+<tr class="even">
+<td>CFAR loss</td>
+<td>1-3 dB</td>
+<td>Adaptive thresholding</td>
+</tr>
+<tr class="odd">
+<td>Beam shape loss</td>
+<td>1.6 dB</td>
+<td>Scanning radar</td>
+</tr>
+<tr class="even">
+<td><strong>Total typical</strong></td>
+<td><strong>4-8 dB</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pattern-propagation-factor-f">1.3 Pattern Propagation Factor
+(F)</h3>
+<p>The propagation factor accounts for multipath effects:</p>
+<pre><code>F⁴ = |1 + ρ × exp(jΔφ)|⁴
+
+Where:
+  ρ    = Surface reflection coefficient
+  Δφ   = Phase difference between direct and reflected paths</code></pre>
+<p><strong>Over smooth sea (grazing angles &lt; 1°):</strong> - ρ ≈ -1
+(perfect reflection with phase reversal) - Creates interference pattern
+with lobes and nulls</p>
+<p><strong>Height-dependent coverage:</strong></p>
+<pre><code>First lobe maximum at: h_target = λR / (4h_antenna)
+First null at: h_target = λR / (2h_antenna)</code></pre>
+<h3 id="minimum-detectable-signal">1.4 Minimum Detectable Signal</h3>
+<p>The minimum signal the receiver can detect:</p>
+<pre><code>S_min = k × T_0 × B × F_n × (S/N)_min × L_proc
+
+Where:
+  k       = Boltzmann&#39;s constant (1.38 × 10⁻²³ J/K)
+  T_0     = Reference temperature (290 K)
+  B       = Receiver bandwidth (Hz)
+  F_n     = Noise figure (linear)
+  (S/N)_min = Minimum required SNR for detection
+  L_proc  = Processing losses</code></pre>
+<p><strong>Example calculation:</strong></p>
+<pre><code>B = 10 MHz
+F_n = 3 dB (2× linear)
+(S/N)_min = 13 dB for P_d=0.9, P_fa=10⁻⁶
+L_proc = 5 dB
+
+S_min = 1.38×10⁻²³ × 290 × 10×10⁶ × 2 × 20 × 3.16
+      = 2.5 × 10⁻¹² W
+      = -116 dBW</code></pre>
+<h3 id="maximum-detection-range">1.5 Maximum Detection Range</h3>
+<p>Solving the radar equation for R:</p>
+<pre><code>R_max = [(P_t × G² × λ² × σ) / ((4π)³ × S_min × L_total)]^(1/4)
+
+Note the fourth root: doubling range requires 16× the power.</code></pre>
+<p><strong>Practical implications:</strong> - 3 dB power increase → 19%
+range increase - 6 dB power increase → 41% range increase - 10 dB power
+increase → 78% range increase</p>
+<hr />
+<h2 id="chapter-2-advanced-target-modeling">Chapter 2: Advanced Target
+Modeling</h2>
+<h3 id="detailed-swerling-models">2.1 Detailed Swerling Models</h3>
+<p><strong>Mathematical Foundations:</strong></p>
+<p>The Swerling models describe target RCS fluctuation statistics:</p>
+<p><strong>Swerling Type 1 (Slow Rayleigh):</strong></p>
+<pre><code>PDF: p(σ) = (1/σ_avg) × exp(-σ/σ_avg)
+
+Characteristic: RCS constant during one scan, independent scan-to-scan
+Application: Small boats, buoys, simple targets
+Simulation: σ = σ_avg × exponential(1)</code></pre>
+<p><strong>Swerling Type 2 (Fast Rayleigh):</strong></p>
+<pre><code>PDF: Same as Type 1
+Characteristic: RCS varies pulse-to-pulse
+Application: Rapidly fluctuating small targets
+Simulation: New sample each pulse</code></pre>
+<p><strong>Swerling Type 3 (Slow Chi-squared, 4 DOF):</strong></p>
+<pre><code>PDF: p(σ) = (4σ/σ_avg²) × exp(-2σ/σ_avg)
+
+Characteristic: RCS constant during one scan, independent scan-to-scan
+Application: Large ships with dominant scatterer plus smaller contributors
+Simulation: σ = σ_avg × gamma(2, 1) / 2</code></pre>
+<p><strong>Swerling Type 4 (Fast Chi-squared, 4 DOF):</strong></p>
+<pre><code>PDF: Same as Type 3
+Characteristic: RCS varies pulse-to-pulse
+Application: Complex targets with rapid fluctuation
+Simulation: New sample each pulse</code></pre>
+<p><strong>Detection Performance Impact:</strong></p>
+<p>For P_d = 0.9, P_fa = 10⁻⁶:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Swerling Type</th>
+<th>Required SNR (dB)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0 (constant)</td>
+<td>13.2</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>17.5</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>15.0</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>14.7</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>13.8</td>
+</tr>
+</tbody>
+</table>
+<h3 id="physical-optics-rcs-prediction">2.2 Physical Optics RCS
+Prediction</h3>
+<p>For complex targets, RCS can be computed from geometry:</p>
+<p><strong>Flat Plate (perpendicular incidence):</strong></p>
+<pre><code>σ = 4πA²/λ²
+
+Example: 10m × 10m plate at X-band (λ = 3cm)
+σ = 4π × (100)² / (0.03)² = 1.4 × 10⁸ m² = +81 dBsm</code></pre>
+<p><strong>Sphere:</strong></p>
+<pre><code>σ = πa² (for a &gt;&gt; λ, optical region)
+
+Example: 1m radius sphere
+σ = π × 1² = 3.14 m² = +5 dBsm</code></pre>
+<p><strong>Cylinder (broadside):</strong></p>
+<pre><code>σ = 2πaL²/λ
+
+Where a = radius, L = length</code></pre>
+<p><strong>Corner Reflector:</strong></p>
+<pre><code>σ = 4πa⁴/(3λ²)
+
+Where a = side length</code></pre>
+<h3 id="multipath-and-sea-surface-interaction">2.3 Multipath and Sea
+Surface Interaction</h3>
+<p><strong>Two-Ray Model:</strong></p>
+<p>The sea surface creates a reflected path:</p>
+<pre><code>E_total = E_direct × [1 + ρ × exp(jΔφ)]
+
+Δφ = (4πh_r × h_t) / (λ × R)
+
+Where:
+  h_r = radar antenna height
+  h_t = target height
+  ρ   = reflection coefficient</code></pre>
+<p><strong>Reflection Coefficient:</strong></p>
+<p>For horizontal polarization (typical marine radar):</p>
+<pre><code>ρ_H = (sin(ψ) - √(ε - cos²(ψ))) / (sin(ψ) + √(ε - cos²(ψ)))
+
+Where:
+  ψ = grazing angle
+  ε = complex dielectric constant of seawater</code></pre>
+<p>For seawater at X-band:</p>
+<pre><code>ε ≈ 60 - j40 (highly conductive)
+At low grazing angles: ρ ≈ -1</code></pre>
+<p><strong>Ducting and Anomalous Propagation:</strong></p>
+<p>Under certain atmospheric conditions, radar signals bend
+abnormally:</p>
+<pre><code>Refractivity: N = (n - 1) × 10⁶ = (77.6/T) × (p + 4810e/T)
+
+Where:
+  n = refractive index
+  T = temperature (K)
+  p = pressure (mbar)
+  e = water vapor pressure (mbar)</code></pre>
+<p><strong>Duct formation:</strong> When dN/dh &lt; -157 N-units/km,
+signals bend toward surface.</p>
+<hr />
+<h2 id="chapter-3-advanced-clutter-modeling">Chapter 3: Advanced Clutter
+Modeling</h2>
+<h3 id="k-distribution-theory">3.1 K-Distribution Theory</h3>
+<p>Sea clutter is NOT Gaussian. The K-distribution accurately models the
+“spiky” nature of sea returns.</p>
+<p><strong>Derivation:</strong></p>
+<p>The K-distribution arises from a compound model: 1. Local sea surface
+reflectivity varies (gamma distributed) 2. Individual scatterers produce
+Rayleigh returns</p>
+<pre><code>PDF: p(x) = (2/Γ(ν)) × (ν/μ)^((ν+1)/2) × x^ν × K_(ν-1)(2√(νx/μ))
+
+Where:
+  x  = intensity
+  μ  = mean intensity
+  ν  = shape parameter
+  K_n = modified Bessel function of second kind
+  Γ  = gamma function</code></pre>
+<p><strong>Simplified Generation:</strong></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> k_distribution_sample(nu, mean, size):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Generate K-distributed samples.&quot;&quot;&quot;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compound model: gamma × exponential</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    gamma_component <span class="op">=</span> np.random.gamma(nu, <span class="dv">1</span><span class="op">/</span>nu, size)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    exponential_component <span class="op">=</span> np.random.exponential(<span class="fl">1.0</span>, size)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mean <span class="op">*</span> gamma_component <span class="op">*</span> exponential_component</span></code></pre></div>
+<p><strong>Shape Parameter (ν) vs. Sea State:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Sea State</th>
+<th>Significant Wave Height</th>
+<th>ν (shape)</th>
+<th>Character</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0 m</td>
+<td>&gt;10</td>
+<td>Nearly Rayleigh</td>
+</tr>
+<tr class="even">
+<td>1-2</td>
+<td>0.1-0.5 m</td>
+<td>5-10</td>
+<td>Slightly spiky</td>
+</tr>
+<tr class="odd">
+<td>3-4</td>
+<td>0.5-2.5 m</td>
+<td>1-5</td>
+<td>Moderately spiky</td>
+</tr>
+<tr class="even">
+<td>5-6</td>
+<td>2.5-6 m</td>
+<td>0.5-1</td>
+<td>Very spiky</td>
+</tr>
+<tr class="odd">
+<td>7+</td>
+<td>&gt;6 m</td>
+<td>&lt;0.5</td>
+<td>Extremely spiky</td>
+</tr>
+</tbody>
+</table>
+<h3 id="spatial-and-temporal-correlation">3.2 Spatial and Temporal
+Correlation</h3>
+<p>Real sea clutter is correlated in: - <strong>Range:</strong> Adjacent
+bins are similar - <strong>Azimuth:</strong> Nearby bearings are similar
+- <strong>Time:</strong> Clutter evolves, not random frame-to-frame</p>
+<p><strong>Spatial Correlation Model:</strong></p>
+<pre><code>Correlation(Δr) = exp(-(Δr/L_c)²)
+
+Where L_c = correlation length ≈ radar resolution cell</code></pre>
+<p><strong>Implementation with correlation:</strong></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_correlated_clutter(num_bins, correlation_length):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Generate spatially correlated clutter.&quot;&quot;&quot;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generate white noise</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    white <span class="op">=</span> np.random.randn(num_bins)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create Gaussian correlation kernel</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    kernel_size <span class="op">=</span> <span class="bu">int</span>(<span class="dv">4</span> <span class="op">*</span> correlation_length)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    kernel <span class="op">=</span> np.exp(<span class="op">-</span>np.arange(<span class="op">-</span>kernel_size, kernel_size<span class="op">+</span><span class="dv">1</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">/</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                    (<span class="dv">2</span> <span class="op">*</span> correlation_length<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    kernel <span class="op">/=</span> kernel.<span class="bu">sum</span>()</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convolve to introduce correlation</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    correlated <span class="op">=</span> np.convolve(white, kernel, mode<span class="op">=</span><span class="st">&#39;same&#39;</span>)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Transform to K-distribution marginals</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># (requires copula or more sophisticated approach)</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> correlated</span></code></pre></div>
+<h3 id="wind-and-wave-direction-effects">3.3 Wind and Wave Direction
+Effects</h3>
+<p>Sea clutter depends on radar look direction relative to
+wind/waves:</p>
+<p><strong>Upwind/Downwind vs. Crosswind:</strong></p>
+<pre><code>σ_0(θ) = σ_0_up × (1 + α × cos(θ - θ_wind))
+
+Where:
+  θ       = radar look direction
+  θ_wind  = wind direction
+  α       ≈ 0.3-0.5 (asymmetry factor)</code></pre>
+<p><strong>Physical Explanation:</strong> - Upwind: See wave fronts,
+higher RCS - Downwind: See wave backs, lower RCS - Crosswind:
+Intermediate</p>
+<h3 id="range-dependent-clutter-behavior">3.4 Range-Dependent Clutter
+Behavior</h3>
+<p><strong>Near Range (&lt; 1 nm):</strong> - Dominated by sea clutter -
+Grazing angle &gt; 5° - σ_0 relatively constant with range</p>
+<p><strong>Mid Range (1-10 nm):</strong> - Grazing angle decreasing -
+σ_0 ∝ R^(-0.5) to R^(-1) - Spiky character increases</p>
+<p><strong>Far Range (&gt; 10 nm):</strong> - Very low grazing angles -
+σ_0 ∝ R^(-1.5) to R^(-2.5) - Multipath effects dominate</p>
+<p><strong>Implementation:</strong></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clutter_range_factor(range_m, radar_height_m):</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Compute range-dependent clutter scaling.&quot;&quot;&quot;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> range_m <span class="op">&lt;</span> <span class="dv">100</span>:</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">1.0</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Grazing angle approximation</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    grazing_rad <span class="op">=</span> np.arctan(radar_height_m <span class="op">/</span> range_m)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    grazing_deg <span class="op">=</span> np.degrees(grazing_rad)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Empirical model</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> grazing_deg <span class="op">&gt;</span> <span class="dv">5</span>:</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (<span class="dv">100</span> <span class="op">/</span> range_m) <span class="op">**</span> <span class="fl">1.5</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> grazing_deg <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (<span class="dv">100</span> <span class="op">/</span> range_m) <span class="op">**</span> <span class="fl">2.0</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (<span class="dv">100</span> <span class="op">/</span> range_m) <span class="op">**</span> <span class="fl">2.5</span></span></code></pre></div>
+<hr />
+<h2 id="chapter-4-propagation-and-environmental-effects">Chapter 4:
+Propagation and Environmental Effects</h2>
+<h3 id="refraction-and-earth-curvature">4.1 Refraction and Earth
+Curvature</h3>
+<p>Radar waves bend in the atmosphere. The “4/3 Earth” model
+approximates this:</p>
+<pre><code>Effective Earth Radius: R_e = (4/3) × R_actual = 8495 km
+
+Radar Horizon: d = √(2 × R_e × h)
+
+Example: Antenna at 25m height
+d = √(2 × 8495000 × 25) = 20.6 km = 11.1 nm</code></pre>
+<p><strong>Beyond-the-Horizon Detection:</strong></p>
+<p>Under standard conditions, maximum detection range to a target:</p>
+<pre><code>R_max = √(2 × R_e × h_radar) + √(2 × R_e × h_target)
+
+Example: Radar at 25m, target at 10m
+R_max = 20.6 km + 13.0 km = 33.6 km = 18.1 nm</code></pre>
+<h3 id="atmospheric-ducting">4.2 Atmospheric Ducting</h3>
+<p><strong>Surface Duct:</strong></p>
+<p>When the refractive index decreases sharply with height, signals trap
+near the surface.</p>
+<pre><code>Duct condition: dN/dh &lt; -157 N-units/km</code></pre>
+<p>Effects: - Extended range (signals travel further) - Reduced clutter
+(may skip over nearby sea) - Anomalous coverage patterns</p>
+<p><strong>Evaporation Duct:</strong></p>
+<p>Over warm water, evaporation creates a duct layer:</p>
+<pre><code>Typical duct height: 10-40m
+Detection enhancement: Can exceed 50%</code></pre>
+<h3 id="rain-attenuation-and-backscatter">4.3 Rain Attenuation and
+Backscatter</h3>
+<p><strong>Marshall-Palmer Drop Size Distribution:</strong></p>
+<pre><code>N(D) = N_0 × exp(-ΛD)
+
+Where:
+  N(D) = number of drops per unit volume with diameter D
+  N_0  = 8000 drops/m³/mm
+  Λ    = 4.1 × R^(-0.21) mm⁻¹
+  R    = rain rate (mm/hr)</code></pre>
+<p><strong>Specific Attenuation (X-band):</strong></p>
+<pre><code>α = k × R^a  dB/km
+
+For X-band: k ≈ 0.01, a ≈ 1.21</code></pre>
+<p><strong>Reflectivity Factor:</strong></p>
+<pre><code>Z = ∫ N(D) × D⁶ dD  mm⁶/m³
+
+Z(dBZ) = 10 × log₁₀(Z)</code></pre>
+<p><strong>Simulation Implementation:</strong></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> apply_rain_attenuation(sweep, rain_rate_mmh, ranges_km):</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Apply range-dependent rain attenuation.&quot;&quot;&quot;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> rain_rate_mmh <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> sweep</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Marshall-Palmer attenuation</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> <span class="fl">0.01</span> <span class="op">*</span> (rain_rate_mmh <span class="op">**</span> <span class="fl">1.21</span>)  <span class="co"># dB/km one-way</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Two-way attenuation</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    atten_db <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> alpha <span class="op">*</span> ranges_km</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    atten_linear <span class="op">=</span> <span class="dv">10</span> <span class="op">**</span> (<span class="op">-</span>atten_db <span class="op">/</span> <span class="dv">10</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sweep <span class="op">*</span> atten_linear</span></code></pre></div>
+<hr />
+<h2 id="chapter-5-advanced-signal-processing">Chapter 5: Advanced Signal
+Processing</h2>
+<h3 id="pulse-compression">5.1 Pulse Compression</h3>
+<p><strong>The Range-Energy Trade-off:</strong></p>
+<p>Short pulses: Good resolution, low energy Long pulses: Poor
+resolution, high energy</p>
+<p><strong>Solution:</strong> Pulse compression - transmit long, coded
+pulse; compress on receive.</p>
+<p><strong>Linear FM (Chirp):</strong></p>
+<pre><code>s(t) = A × cos(2π × (f_0 + (B/2T) × t) × t)
+
+Where:
+  f_0 = carrier frequency
+  B   = bandwidth (sweep range)
+  T   = pulse duration</code></pre>
+<p><strong>Compression Ratio:</strong></p>
+<pre><code>CR = T × B
+
+Example: T = 10 μs, B = 10 MHz
+CR = 100
+Compressed pulse width = T/CR = 0.1 μs
+Range resolution = 15m (vs. 1500m uncompressed)</code></pre>
+<p><strong>Processing Gain:</strong></p>
+<pre><code>Gain = 10 × log₁₀(T × B) dB
+
+Example: 10 × log₁₀(100) = 20 dB</code></pre>
+<h3 id="moving-target-indication-mti">5.2 Moving Target Indication
+(MTI)</h3>
+<p><strong>Principle:</strong> Clutter is stationary; targets move.
+Exploit Doppler to separate them.</p>
+<p><strong>Doppler Frequency:</strong></p>
+<pre><code>f_d = 2 × v_r × f_0 / c = 2 × v_r / λ
+
+Where v_r = radial velocity (toward/away from radar)
+
+Example: X-band (λ = 3cm), ship at 20 knots = 10.3 m/s
+f_d = 2 × 10.3 / 0.03 = 687 Hz</code></pre>
+<p><strong>MTI Filter:</strong></p>
+<p>Simple two-pulse canceller:</p>
+<pre><code>y[n] = x[n] - x[n-1]
+
+Frequency response: H(f) = 2j × sin(π × f × PRI)</code></pre>
+<p>Nulls at f = 0 (stationary clutter) and multiples of PRF.</p>
+<h3 id="cfar-detection">5.3 CFAR Detection</h3>
+<p><strong>Cell-Averaging CFAR (CA-CFAR):</strong></p>
+<pre><code>For cell under test (CUT) at position k:
+
+1. Define guard cells: [k-G, k+G] excluded
+2. Define training cells: [k-G-N, k-G-1] and [k+G+1, k+G+N]
+3. Estimate noise: μ = (1/2N) × Σ(training cells)
+4. Set threshold: T = α × μ
+5. Detect if CUT &gt; T</code></pre>
+<p><strong>Setting α for desired P_fa:</strong></p>
+<p>For Rayleigh-distributed noise:</p>
+<pre><code>P_fa = (1 + α/N)^(-N)
+
+Solving for α:
+α = N × (P_fa^(-1/N) - 1)
+
+Example: P_fa = 10⁻⁶, N = 16
+α = 16 × (10^(6/16) - 1) = 16 × 1.33 = 21.3</code></pre>
+<p><strong>Ordered-Statistic CFAR (OS-CFAR):</strong></p>
+<p>More robust to interfering targets:</p>
+<pre><code>1. Sort training cells
+2. Select k-th smallest value as estimate
+3. Typical: k = 0.75 × N (75th percentile)</code></pre>
+<h3 id="integration-techniques">5.4 Integration Techniques</h3>
+<p><strong>Non-Coherent Integration:</strong></p>
+<p>Combining multiple pulses (magnitude only):</p>
+<pre><code>SNR_integrated = n × SNR_single / √n = √n × SNR_single
+
+Integration gain = 10 × log₁₀(√n) = 5 × log₁₀(n) dB</code></pre>
+<p><strong>Coherent Integration:</strong></p>
+<p>Preserving phase (for coherent radar):</p>
+<pre><code>SNR_integrated = n² × SNR_single / n = n × SNR_single
+
+Integration gain = 10 × log₁₀(n) dB</code></pre>
+<p><strong>Example:</strong> - 16 pulses integrated - Non-coherent gain:
+5 × log₁₀(16) = 6 dB - Coherent gain: 10 × log₁₀(16) = 12 dB</p>
+<hr />
+<h1 id="part-ii-advanced-simulation-techniques">Part II: Advanced
+Simulation Techniques</h1>
+<h2 id="chapter-6-terrain-modeling-and-occlusion">Chapter 6: Terrain
+Modeling and Occlusion</h2>
+<h3 id="digital-elevation-models">6.1 Digital Elevation Models</h3>
+<p><strong>Data Sources:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Resolution</th>
+<th>Coverage</th>
+<th>Access</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SRTM</td>
+<td>30m (global)</td>
+<td>±60° latitude</td>
+<td>Free</td>
+</tr>
+<tr class="even">
+<td>NASADEM</td>
+<td>30m</td>
+<td>±60° latitude</td>
+<td>Free</td>
+</tr>
+<tr class="odd">
+<td>ASTER GDEM</td>
+<td>30m</td>
+<td>±83° latitude</td>
+<td>Free</td>
+</tr>
+<tr class="even">
+<td>ALOS World 3D</td>
+<td>30m</td>
+<td>Global</td>
+<td>Free</td>
+</tr>
+<tr class="odd">
+<td>TanDEM-X</td>
+<td>12m</td>
+<td>Global</td>
+<td>Commercial</td>
+</tr>
+<tr class="even">
+<td>LiDAR</td>
+<td>1-5m</td>
+<td>Local</td>
+<td>Varies</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Coordinate Systems:</strong></p>
+<p>Most DEMs use WGS84 geographic coordinates (lat/lon). Simulation
+requires local Cartesian.</p>
+<p><strong>Equirectangular Projection (small areas):</strong></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> latlon_to_local(lat, lon, origin_lat, origin_lon):</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Convert lat/lon to local meters (equirectangular).&quot;&quot;&quot;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    R <span class="op">=</span> <span class="dv">6371000</span>  <span class="co"># Earth radius in meters</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> R <span class="op">*</span> np.radians(lon <span class="op">-</span> origin_lon) <span class="op">*</span> np.cos(np.radians(origin_lat))</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> R <span class="op">*</span> np.radians(lat <span class="op">-</span> origin_lat)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x, y</span></code></pre></div>
+<p><strong>UTM Projection (larger areas):</strong></p>
+<p>For areas &gt; 50km, use Universal Transverse Mercator:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyproj</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_utm_transformer(lon):</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Create lat/lon to UTM transformer.&quot;&quot;&quot;</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    zone <span class="op">=</span> <span class="bu">int</span>((lon <span class="op">+</span> <span class="dv">180</span>) <span class="op">/</span> <span class="dv">6</span>) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    utm_crs <span class="op">=</span> pyproj.CRS(<span class="ss">f&quot;+proj=utm +zone=</span><span class="sc">{</span>zone<span class="sc">}</span><span class="ss"> +datum=WGS84&quot;</span>)</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pyproj.Transformer.from_crs(<span class="st">&quot;EPSG:4326&quot;</span>, utm_crs)</span></code></pre></div>
+<h3 id="efficient-ray-terrain-intersection">6.2 Efficient Ray-Terrain
+Intersection</h3>
+<p><strong>Bresenham-based Ray Marching:</strong></p>
+<p>For regular grids, use modified Bresenham algorithm:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ray_march_bresenham(grid, start, direction, max_dist, cell_size):</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Efficient grid-aligned ray marching.&quot;&quot;&quot;</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    x, y <span class="op">=</span> start</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    dx, dy <span class="op">=</span> direction</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Determine primary axis</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">abs</span>(dx) <span class="op">&gt;</span> <span class="bu">abs</span>(dy):</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>        step_x <span class="op">=</span> <span class="dv">1</span> <span class="cf">if</span> dx <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>        step_y <span class="op">=</span> dy <span class="op">/</span> <span class="bu">abs</span>(dx)</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>        step_y <span class="op">=</span> <span class="dv">1</span> <span class="cf">if</span> dy <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>        step_x <span class="op">=</span> dx <span class="op">/</span> <span class="bu">abs</span>(dy)</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    dist <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> dist <span class="op">&lt;</span> max_dist:</span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>        gx, gy <span class="op">=</span> <span class="bu">int</span>(x <span class="op">/</span> cell_size), <span class="bu">int</span>(y <span class="op">/</span> cell_size)</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="dv">0</span> <span class="op">&lt;=</span> gx <span class="op">&lt;</span> grid.shape[<span class="dv">1</span>] <span class="kw">and</span> <span class="dv">0</span> <span class="op">&lt;=</span> gy <span class="op">&lt;</span> grid.shape[<span class="dv">0</span>]:</span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> dist, grid[gy, gx]</span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>        x <span class="op">+=</span> step_x <span class="op">*</span> cell_size</span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>        y <span class="op">+=</span> step_y <span class="op">*</span> cell_size</span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>        dist <span class="op">+=</span> cell_size <span class="op">*</span> <span class="bu">max</span>(<span class="bu">abs</span>(step_x), <span class="bu">abs</span>(step_y))</span></code></pre></div>
+<p><strong>Hierarchical Occlusion Testing:</strong></p>
+<p>For large terrains, use hierarchical approach:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TerrainQuadTree:</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Hierarchical terrain for fast LOS queries.&quot;&quot;&quot;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, heightmap, cell_size, min_node_size<span class="op">=</span><span class="dv">256</span>):</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.heightmap <span class="op">=</span> heightmap</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.cell_size <span class="op">=</span> cell_size</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.root <span class="op">=</span> <span class="va">self</span>._build_tree(<span class="dv">0</span>, <span class="dv">0</span>, heightmap.shape[<span class="dv">1</span>],</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>                                     heightmap.shape[<span class="dv">0</span>], min_node_size)</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _build_tree(<span class="va">self</span>, x0, y0, x1, y1, min_size):</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Recursively build quadtree with max heights.&quot;&quot;&quot;</span></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> x1 <span class="op">-</span> x0 <span class="op">&lt;=</span> min_size <span class="kw">or</span> y1 <span class="op">-</span> y0 <span class="op">&lt;=</span> min_size:</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> TerrainNode(x0, y0, x1, y1,</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>                              <span class="va">self</span>.heightmap[y0:y1, x0:x1].<span class="bu">max</span>())</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>        mid_x <span class="op">=</span> (x0 <span class="op">+</span> x1) <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>        mid_y <span class="op">=</span> (y0 <span class="op">+</span> y1) <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>        children <span class="op">=</span> [</span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._build_tree(x0, y0, mid_x, mid_y, min_size),</span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._build_tree(mid_x, y0, x1, mid_y, min_size),</span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._build_tree(x0, mid_y, mid_x, y1, min_size),</span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._build_tree(mid_x, mid_y, x1, y1, min_size)</span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>        max_h <span class="op">=</span> <span class="bu">max</span>(c.max_height <span class="cf">for</span> c <span class="kw">in</span> children)</span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>        node <span class="op">=</span> TerrainNode(x0, y0, x1, y1, max_h)</span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a>        node.children <span class="op">=</span> children</span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> node</span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_occluded(<span class="va">self</span>, radar_pos, target_pos, target_height):</span>
+<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Fast hierarchical occlusion test.&quot;&quot;&quot;</span></span>
+<span id="cb47-33"><a href="#cb47-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># First test against quadtree bounding volumes</span></span>
+<span id="cb47-34"><a href="#cb47-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Skip subtrees that can&#39;t possibly occlude</span></span>
+<span id="cb47-35"><a href="#cb47-35" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Only descend to leaf level when necessary</span></span>
+<span id="cb47-36"><a href="#cb47-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span>  <span class="co"># Implementation details...</span></span></code></pre></div>
+<h3 id="fresnel-zone-effects">6.3 Fresnel Zone Effects</h3>
+<p>For accurate terrain shadowing, consider the Fresnel zone:</p>
+<pre><code>Fresnel radius at point P between A and B:
+
+r_n = √(n × λ × d_1 × d_2 / (d_1 + d_2))
+
+Where:
+  n = Fresnel zone number (usually n=1)
+  λ = wavelength
+  d_1 = distance from A to P
+  d_2 = distance from P to B</code></pre>
+<p><strong>Practical rule:</strong> If terrain intrudes into 60% of
+first Fresnel zone, significant shadowing occurs.</p>
+<h3 id="diffraction-over-terrain">6.4 Diffraction Over Terrain</h3>
+<p>When terrain partially blocks the path, diffraction occurs:</p>
+<p><strong>Knife-Edge Diffraction:</strong></p>
+<pre><code>Loss(dB) = 6.02 + 9.11v - 1.27v² (for v &gt; 0)
+
+v = h × √(2/λ × (1/d_1 + 1/d_2))
+
+Where h = height of obstruction above LOS</code></pre>
+<p><strong>Multiple Knife-Edges (Bullington Method):</strong></p>
+<p>For multiple obstructions, find equivalent single edge: 1. Draw line
+from transmitter over highest obstruction 2. Draw line from receiver
+over highest obstruction 3. Intersection defines equivalent
+knife-edge</p>
+<hr />
+<h2 id="chapter-7-coastline-and-water-body-processing">Chapter 7:
+Coastline and Water Body Processing</h2>
+<h3 id="coastline-data-sources">7.1 Coastline Data Sources</h3>
+<p><strong>OpenStreetMap:</strong></p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> overpy</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_coastlines(center_lat, center_lon, radius_m):</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Fetch coastlines from Overpass API.&quot;&quot;&quot;</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    api <span class="op">=</span> overpy.Overpass()</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert radius to degrees (approximate)</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>    radius_deg <span class="op">=</span> radius_m <span class="op">/</span> <span class="dv">111000</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>    query <span class="op">=</span> <span class="ss">f&quot;&quot;&quot;</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a><span class="ss">    [out:json];</span></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a><span class="ss">    (</span></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a><span class="ss">      way[&quot;natural&quot;=&quot;coastline&quot;]</span></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="ss">        (</span><span class="sc">{</span>center_lat <span class="op">-</span> radius_deg<span class="sc">}</span><span class="ss">,</span><span class="sc">{</span>center_lon <span class="op">-</span> radius_deg<span class="sc">}</span><span class="ss">,</span></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a><span class="ss">         </span><span class="sc">{</span>center_lat <span class="op">+</span> radius_deg<span class="sc">}</span><span class="ss">,</span><span class="sc">{</span>center_lon <span class="op">+</span> radius_deg<span class="sc">}</span><span class="ss">);</span></span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a><span class="ss">      way[&quot;natural&quot;=&quot;water&quot;][&quot;water&quot;~&quot;lake|reservoir&quot;]</span></span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a><span class="ss">        (</span><span class="sc">{</span>center_lat <span class="op">-</span> radius_deg<span class="sc">}</span><span class="ss">,</span><span class="sc">{</span>center_lon <span class="op">-</span> radius_deg<span class="sc">}</span><span class="ss">,</span></span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a><span class="ss">         </span><span class="sc">{</span>center_lat <span class="op">+</span> radius_deg<span class="sc">}</span><span class="ss">,</span><span class="sc">{</span>center_lon <span class="op">+</span> radius_deg<span class="sc">}</span><span class="ss">);</span></span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a><span class="ss">    );</span></span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a><span class="ss">    out body;</span></span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a><span class="ss">    &gt;;</span></span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a><span class="ss">    out skel qt;</span></span>
+<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a><span class="ss">    &quot;&quot;&quot;</span></span>
+<span id="cb50-24"><a href="#cb50-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> api.query(query)</span>
+<span id="cb50-26"><a href="#cb50-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> process_ways(result.ways)</span></code></pre></div>
+<h3 id="polygon-simplification">7.2 Polygon Simplification</h3>
+<p>Raw coastline data has too many points. Douglas-Peucker algorithm
+reduces complexity:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> douglas_peucker(points, epsilon):</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Simplify polygon using Douglas-Peucker algorithm.&quot;&quot;&quot;</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(points) <span class="op">&lt;=</span> <span class="dv">2</span>:</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> points</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find point with maximum distance from line</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    start, end <span class="op">=</span> points[<span class="dv">0</span>], points[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>    max_dist <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    max_idx <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(points) <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>        dist <span class="op">=</span> perpendicular_distance(points[i], start, end)</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> dist <span class="op">&gt;</span> max_dist:</span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>            max_dist <span class="op">=</span> dist</span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>            max_idx <span class="op">=</span> i</span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If max distance &gt; epsilon, recursively simplify</span></span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> max_dist <span class="op">&gt;</span> epsilon:</span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a>        left <span class="op">=</span> douglas_peucker(points[:max_idx <span class="op">+</span> <span class="dv">1</span>], epsilon)</span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a>        right <span class="op">=</span> douglas_peucker(points[max_idx:], epsilon)</span>
+<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> left[:<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> right</span>
+<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [start, end]</span>
+<span id="cb51-24"><a href="#cb51-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-25"><a href="#cb51-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> perpendicular_distance(point, line_start, line_end):</span>
+<span id="cb51-26"><a href="#cb51-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Distance from point to line segment.&quot;&quot;&quot;</span></span>
+<span id="cb51-27"><a href="#cb51-27" aria-hidden="true" tabindex="-1"></a>    dx <span class="op">=</span> line_end[<span class="dv">0</span>] <span class="op">-</span> line_start[<span class="dv">0</span>]</span>
+<span id="cb51-28"><a href="#cb51-28" aria-hidden="true" tabindex="-1"></a>    dy <span class="op">=</span> line_end[<span class="dv">1</span>] <span class="op">-</span> line_start[<span class="dv">1</span>]</span>
+<span id="cb51-29"><a href="#cb51-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-30"><a href="#cb51-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dx <span class="op">==</span> <span class="dv">0</span> <span class="kw">and</span> dy <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb51-31"><a href="#cb51-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.sqrt((point[<span class="dv">0</span>] <span class="op">-</span> line_start[<span class="dv">0</span>])<span class="op">**</span><span class="dv">2</span> <span class="op">+</span></span>
+<span id="cb51-32"><a href="#cb51-32" aria-hidden="true" tabindex="-1"></a>                       (point[<span class="dv">1</span>] <span class="op">-</span> line_start[<span class="dv">1</span>])<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb51-33"><a href="#cb51-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-34"><a href="#cb51-34" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">min</span>(<span class="dv">1</span>, ((point[<span class="dv">0</span>] <span class="op">-</span> line_start[<span class="dv">0</span>]) <span class="op">*</span> dx <span class="op">+</span></span>
+<span id="cb51-35"><a href="#cb51-35" aria-hidden="true" tabindex="-1"></a>                       (point[<span class="dv">1</span>] <span class="op">-</span> line_start[<span class="dv">1</span>]) <span class="op">*</span> dy) <span class="op">/</span> (dx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> dy<span class="op">**</span><span class="dv">2</span>)))</span>
+<span id="cb51-36"><a href="#cb51-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-37"><a href="#cb51-37" aria-hidden="true" tabindex="-1"></a>    proj_x <span class="op">=</span> line_start[<span class="dv">0</span>] <span class="op">+</span> t <span class="op">*</span> dx</span>
+<span id="cb51-38"><a href="#cb51-38" aria-hidden="true" tabindex="-1"></a>    proj_y <span class="op">=</span> line_start[<span class="dv">1</span>] <span class="op">+</span> t <span class="op">*</span> dy</span>
+<span id="cb51-39"><a href="#cb51-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-40"><a href="#cb51-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.sqrt((point[<span class="dv">0</span>] <span class="op">-</span> proj_x)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (point[<span class="dv">1</span>] <span class="op">-</span> proj_y)<span class="op">**</span><span class="dv">2</span>)</span></code></pre></div>
+<h3 id="efficient-polygon-testing">7.3 Efficient Polygon Testing</h3>
+<p><strong>Winding Number Algorithm:</strong></p>
+<p>More robust than ray casting for complex polygons:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> winding_number(point, polygon):</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Compute winding number of point with respect to polygon.&quot;&quot;&quot;</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    wn <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(polygon)</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>        p1 <span class="op">=</span> polygon[i]</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>        p2 <span class="op">=</span> polygon[(i <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> n]</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p1[<span class="dv">1</span>] <span class="op">&lt;=</span> point[<span class="dv">1</span>]:</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> p2[<span class="dv">1</span>] <span class="op">&gt;</span> point[<span class="dv">1</span>]:</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> is_left(p1, p2, point) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>                    wn <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> p2[<span class="dv">1</span>] <span class="op">&lt;=</span> point[<span class="dv">1</span>]:</span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> is_left(p1, p2, point) <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>                    wn <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> wn  <span class="co"># wn != 0 means inside</span></span>
+<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_left(p0, p1, p2):</span>
+<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Test if point is left of line from p0 to p1.&quot;&quot;&quot;</span></span>
+<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ((p1[<span class="dv">0</span>] <span class="op">-</span> p0[<span class="dv">0</span>]) <span class="op">*</span> (p2[<span class="dv">1</span>] <span class="op">-</span> p0[<span class="dv">1</span>]) <span class="op">-</span></span>
+<span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a>            (p2[<span class="dv">0</span>] <span class="op">-</span> p0[<span class="dv">0</span>]) <span class="op">*</span> (p1[<span class="dv">1</span>] <span class="op">-</span> p0[<span class="dv">1</span>]))</span></code></pre></div>
+<h3 id="vectorized-ray-polygon-intersection">7.4 Vectorized Ray-Polygon
+Intersection</h3>
+<p>For performance, vectorize across all polygon edges:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ray_polygon_intersections_vectorized(origin, direction, polygon):</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Find all ray-polygon intersections (NumPy vectorized).&quot;&quot;&quot;</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert to arrays</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    p1 <span class="op">=</span> polygon[:<span class="op">-</span><span class="dv">1</span>]  <span class="co"># (N-1, 2)</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>    p2 <span class="op">=</span> polygon[<span class="dv">1</span>:]   <span class="co"># (N-1, 2)</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Edge vectors</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>    edge <span class="op">=</span> p2 <span class="op">-</span> p1  <span class="co"># (N-1, 2)</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Origin relative to edge starts</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>    op <span class="op">=</span> origin <span class="op">-</span> p1  <span class="co"># (N-1, 2)</span></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cross products for parametric solution</span></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>    denom <span class="op">=</span> direction[<span class="dv">0</span>] <span class="op">*</span> edge[:, <span class="dv">1</span>] <span class="op">-</span> direction[<span class="dv">1</span>] <span class="op">*</span> edge[:, <span class="dv">0</span>]</span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Avoid division by zero</span></span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>    valid <span class="op">=</span> np.<span class="bu">abs</span>(denom) <span class="op">&gt;</span> <span class="fl">1e-10</span></span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> np.zeros(<span class="bu">len</span>(denom))</span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> np.zeros(<span class="bu">len</span>(denom))</span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a>    t[valid] <span class="op">=</span> (op[valid, <span class="dv">0</span>] <span class="op">*</span> edge[valid, <span class="dv">1</span>] <span class="op">-</span></span>
+<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a>                op[valid, <span class="dv">1</span>] <span class="op">*</span> edge[valid, <span class="dv">0</span>]) <span class="op">/</span> denom[valid]</span>
+<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a>    u[valid] <span class="op">=</span> (op[valid, <span class="dv">0</span>] <span class="op">*</span> direction[<span class="dv">1</span>] <span class="op">-</span></span>
+<span id="cb53-25"><a href="#cb53-25" aria-hidden="true" tabindex="-1"></a>                op[valid, <span class="dv">1</span>] <span class="op">*</span> direction[<span class="dv">0</span>]) <span class="op">/</span> denom[valid]</span>
+<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-27"><a href="#cb53-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Valid intersections: t &gt; 0, 0 &lt;= u &lt;= 1</span></span>
+<span id="cb53-28"><a href="#cb53-28" aria-hidden="true" tabindex="-1"></a>    hits <span class="op">=</span> valid <span class="op">&amp;</span> (t <span class="op">&gt;</span> <span class="dv">0</span>) <span class="op">&amp;</span> (u <span class="op">&gt;=</span> <span class="dv">0</span>) <span class="op">&amp;</span> (u <span class="op">&lt;=</span> <span class="dv">1</span>)</span>
+<span id="cb53-29"><a href="#cb53-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-30"><a href="#cb53-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.sort(t[hits])</span></code></pre></div>
+<hr />
+<h2 id="chapter-8-validation-framework">Chapter 8: Validation
+Framework</h2>
+<h3 id="statistical-validation">8.1 Statistical Validation</h3>
+<p><strong>Kolmogorov-Smirnov Test:</strong></p>
+<p>Compare CDFs of simulated vs. real clutter:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> validate_clutter_distribution(simulated, real):</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Test if simulated clutter matches real distribution.&quot;&quot;&quot;</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    ks_stat, p_value <span class="op">=</span> stats.ks_2samp(simulated.flatten(),</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>                                       real.flatten())</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;ks_statistic&#39;</span>: ks_stat,</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;p_value&#39;</span>: p_value,</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;distributions_match&#39;</span>: p_value <span class="op">&gt;</span> <span class="fl">0.05</span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div>
+<p><strong>Autocorrelation Validation:</strong></p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> validate_correlation_structure(simulated, real):</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Compare spatial autocorrelation.&quot;&quot;&quot;</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> compute_acf(data, max_lag<span class="op">=</span><span class="dv">50</span>):</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="bu">len</span>(data)</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>        mean <span class="op">=</span> np.mean(data)</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>        var <span class="op">=</span> np.var(data)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>        acf <span class="op">=</span> np.zeros(max_lag)</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> lag <span class="kw">in</span> <span class="bu">range</span>(max_lag):</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>            acf[lag] <span class="op">=</span> np.mean((data[:<span class="op">-</span>lag<span class="op">-</span><span class="dv">1</span>] <span class="op">-</span> mean) <span class="op">*</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>                               (data[lag<span class="op">+</span><span class="dv">1</span>:] <span class="op">-</span> mean)) <span class="op">/</span> var</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> acf</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>    sim_acf <span class="op">=</span> compute_acf(simulated)</span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>    real_acf <span class="op">=</span> compute_acf(real)</span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>    correlation <span class="op">=</span> np.corrcoef(sim_acf, real_acf)[<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">&#39;acf_correlation&#39;</span>: correlation}</span></code></pre></div>
+<h3 id="perceptual-quality-metrics">8.2 Perceptual Quality Metrics</h3>
+<p><strong>Structural Similarity Index (SSIM):</strong></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_ssim(img1, img2, window_size<span class="op">=</span><span class="dv">11</span>):</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Compute SSIM between two images.&quot;&quot;&quot;</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    C1 <span class="op">=</span> (<span class="fl">0.01</span> <span class="op">*</span> <span class="dv">255</span>) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    C2 <span class="op">=</span> (<span class="fl">0.03</span> <span class="op">*</span> <span class="dv">255</span>) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Means</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    mu1 <span class="op">=</span> uniform_filter(img1, window_size)</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>    mu2 <span class="op">=</span> uniform_filter(img2, window_size)</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Variances and covariance</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>    sigma1_sq <span class="op">=</span> uniform_filter(img1<span class="op">**</span><span class="dv">2</span>, window_size) <span class="op">-</span> mu1<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>    sigma2_sq <span class="op">=</span> uniform_filter(img2<span class="op">**</span><span class="dv">2</span>, window_size) <span class="op">-</span> mu2<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>    sigma12 <span class="op">=</span> uniform_filter(img1<span class="op">*</span>img2, window_size) <span class="op">-</span> mu1<span class="op">*</span>mu2</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SSIM</span></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>    num <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>mu1<span class="op">*</span>mu2 <span class="op">+</span> C1) <span class="op">*</span> (<span class="dv">2</span><span class="op">*</span>sigma12 <span class="op">+</span> C2)</span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>    den <span class="op">=</span> (mu1<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> mu2<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> C1) <span class="op">*</span> (sigma1_sq <span class="op">+</span> sigma2_sq <span class="op">+</span> C2)</span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean(num <span class="op">/</span> den)</span></code></pre></div>
+<h3 id="target-detection-validation">8.3 Target Detection
+Validation</h3>
+<p><strong>Receiver Operating Characteristic (ROC):</strong></p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_roc(simulator, scenarios, threshold_range):</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Generate ROC curve for target detection.&quot;&quot;&quot;</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    p_d_list <span class="op">=</span> []</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    p_fa_list <span class="op">=</span> []</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> threshold <span class="kw">in</span> threshold_range:</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>        true_positives <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>        false_positives <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>        total_targets <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>        total_noise_cells <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> scenario <span class="kw">in</span> scenarios:</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>            detections, ground_truth <span class="op">=</span> run_scenario(simulator,</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>                                                     scenario, threshold)</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>            tp, fp, fn <span class="op">=</span> match_detections(detections, ground_truth)</span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>            true_positives <span class="op">+=</span> tp</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>            false_positives <span class="op">+=</span> fp</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>            total_targets <span class="op">+=</span> <span class="bu">len</span>(ground_truth)</span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>            total_noise_cells <span class="op">+=</span> count_noise_cells(scenario)</span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>        p_d_list.append(true_positives <span class="op">/</span> total_targets)</span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>        p_fa_list.append(false_positives <span class="op">/</span> total_noise_cells)</span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> p_fa_list, p_d_list</span></code></pre></div>
+<h3 id="comprehensive-validation-report">8.4 Comprehensive Validation
+Report</h3>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ValidationReport:</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Generate comprehensive validation report.&quot;&quot;&quot;</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, simulator, reference_data):</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.simulator <span class="op">=</span> simulator</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.reference <span class="op">=</span> reference_data</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.metrics <span class="op">=</span> {}</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run_all_validations(<span class="va">self</span>):</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Run complete validation suite.&quot;&quot;&quot;</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Statistical tests</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.metrics[<span class="st">&#39;clutter_ks&#39;</span>] <span class="op">=</span> <span class="va">self</span>.validate_clutter()</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.metrics[<span class="st">&#39;noise_distribution&#39;</span>] <span class="op">=</span> <span class="va">self</span>.validate_noise()</span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Spatial metrics</span></span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.metrics[<span class="st">&#39;rmse&#39;</span>] <span class="op">=</span> <span class="va">self</span>.compute_rmse()</span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.metrics[<span class="st">&#39;correlation&#39;</span>] <span class="op">=</span> <span class="va">self</span>.compute_correlation()</span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.metrics[<span class="st">&#39;ssim&#39;</span>] <span class="op">=</span> <span class="va">self</span>.compute_ssim()</span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Detection performance</span></span>
+<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.metrics[<span class="st">&#39;roc&#39;</span>] <span class="op">=</span> <span class="va">self</span>.compute_roc()</span>
+<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.metrics[<span class="st">&#39;detection_accuracy&#39;</span>] <span class="op">=</span> <span class="va">self</span>.validate_detection()</span>
+<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Geometric accuracy</span></span>
+<span id="cb58-25"><a href="#cb58-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.metrics[<span class="st">&#39;coastline_error&#39;</span>] <span class="op">=</span> <span class="va">self</span>.validate_coastlines()</span>
+<span id="cb58-26"><a href="#cb58-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.metrics[<span class="st">&#39;target_position_error&#39;</span>] <span class="op">=</span> <span class="va">self</span>.validate_targets()</span>
+<span id="cb58-27"><a href="#cb58-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-28"><a href="#cb58-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.generate_report()</span>
+<span id="cb58-29"><a href="#cb58-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-30"><a href="#cb58-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> generate_report(<span class="va">self</span>):</span>
+<span id="cb58-31"><a href="#cb58-31" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Generate formatted validation report.&quot;&quot;&quot;</span></span>
+<span id="cb58-32"><a href="#cb58-32" aria-hidden="true" tabindex="-1"></a>        report <span class="op">=</span> <span class="st">&quot;# Radar Simulation Validation Report</span><span class="ch">\n\n</span><span class="st">&quot;</span></span>
+<span id="cb58-33"><a href="#cb58-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-34"><a href="#cb58-34" aria-hidden="true" tabindex="-1"></a>        report <span class="op">+=</span> <span class="st">&quot;## Overall Score</span><span class="ch">\n</span><span class="st">&quot;</span></span>
+<span id="cb58-35"><a href="#cb58-35" aria-hidden="true" tabindex="-1"></a>        overall <span class="op">=</span> <span class="va">self</span>.compute_overall_score()</span>
+<span id="cb58-36"><a href="#cb58-36" aria-hidden="true" tabindex="-1"></a>        report <span class="op">+=</span> <span class="ss">f&quot;**</span><span class="sc">{</span>overall<span class="sc">:.1%}</span><span class="ss">** - &quot;</span></span>
+<span id="cb58-37"><a href="#cb58-37" aria-hidden="true" tabindex="-1"></a>        report <span class="op">+=</span> <span class="va">self</span>.score_interpretation(overall) <span class="op">+</span> <span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">&quot;</span></span>
+<span id="cb58-38"><a href="#cb58-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-39"><a href="#cb58-39" aria-hidden="true" tabindex="-1"></a>        report <span class="op">+=</span> <span class="st">&quot;## Detailed Metrics</span><span class="ch">\n\n</span><span class="st">&quot;</span></span>
+<span id="cb58-40"><a href="#cb58-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> category, metrics <span class="kw">in</span> <span class="va">self</span>.categorize_metrics().items():</span>
+<span id="cb58-41"><a href="#cb58-41" aria-hidden="true" tabindex="-1"></a>            report <span class="op">+=</span> <span class="ss">f&quot;### </span><span class="sc">{</span>category<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span></span>
+<span id="cb58-42"><a href="#cb58-42" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> name, value <span class="kw">in</span> metrics.items():</span>
+<span id="cb58-43"><a href="#cb58-43" aria-hidden="true" tabindex="-1"></a>                report <span class="op">+=</span> <span class="ss">f&quot;- </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>value<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span></span>
+<span id="cb58-44"><a href="#cb58-44" aria-hidden="true" tabindex="-1"></a>            report <span class="op">+=</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span></span>
+<span id="cb58-45"><a href="#cb58-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-46"><a href="#cb58-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> report</span></code></pre></div>
+<hr />
+<h1 id="part-iii-industry-standards-and-practice">Part III: Industry
+Standards and Practice</h1>
+<h2 id="chapter-9-maritime-radar-standards">Chapter 9: Maritime Radar
+Standards</h2>
+<h3 id="imo-performance-standards">9.1 IMO Performance Standards</h3>
+<p><strong>Resolution MSC.192(79) - Radar Equipment:</strong></p>
+<p>Key requirements:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Range scales</td>
+<td>0.25, 0.5, 0.75, 1.5, 3, 6, 12, 24, 48, 96 nm</td>
+</tr>
+<tr class="even">
+<td>Minimum range</td>
+<td>≤ 50m on shortest scale</td>
+</tr>
+<tr class="odd">
+<td>Range discrimination</td>
+<td>≤ 40m</td>
+</tr>
+<tr class="even">
+<td>Bearing accuracy</td>
+<td>≤ 1°</td>
+</tr>
+<tr class="odd">
+<td>Bearing discrimination</td>
+<td>≤ 2.5°</td>
+</tr>
+<tr class="even">
+<td>Detection (small target)</td>
+<td>10 m² at 2 nm in sea state 2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="iec-62388-standard">9.2 IEC 62388 Standard</h3>
+<p><strong>Performance specifications for shipborne radar:</strong></p>
+<ul>
+<li>Defines test methods for all IMO requirements</li>
+<li>Specifies environmental conditions for testing</li>
+<li>Details display requirements</li>
+<li>Mandates automatic acquisition criteria</li>
+</ul>
+<h3 id="furuno-radar-specifics">9.3 Furuno Radar Specifics</h3>
+<p><strong>Common Furuno parameters (FR series):</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Power</th>
+<th>Beamwidth</th>
+<th>RPM</th>
+<th>Range Scales</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FR-1908</td>
+<td>4 kW</td>
+<td>1.9°</td>
+<td>24</td>
+<td>0.125-72 nm</td>
+</tr>
+<tr class="even">
+<td>FR-2117</td>
+<td>12 kW</td>
+<td>1.2°</td>
+<td>24</td>
+<td>0.125-96 nm</td>
+</tr>
+<tr class="odd">
+<td>FR-2127</td>
+<td>25 kW</td>
+<td>0.95°</td>
+<td>24</td>
+<td>0.125-96 nm</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Data Format (CSV export):</strong></p>
+<pre><code># Standard Furuno radar data CSV format
+# Columns: Status, Scale, Range, Gain, Angle, Echo0, Echo1, ...
+
+0,3,6,65,0,12,15,8,22,...
+0,3,6,65,1,10,14,9,18,...
+...</code></pre>
+<hr />
+<h2 id="chapter-10-professional-applications">Chapter 10: Professional
+Applications</h2>
+<h3 id="maritime-training-simulation">10.1 Maritime Training
+Simulation</h3>
+<p><strong>Type-Approved Simulators (STCW):</strong></p>
+<p>The International Convention on Standards of Training, Certification
+and Watchkeeping (STCW) requires:</p>
+<ul>
+<li>Class A: Full mission bridge simulator</li>
+<li>Class B: Multi-task simulator</li>
+<li>Class C: Limited task simulator</li>
+<li>Class S: Special tasks simulator</li>
+</ul>
+<p><strong>Radar-specific training objectives:</strong> 1. Target
+detection and tracking 2. Collision avoidance (COLREGS) 3. Navigation in
+restricted visibility 4. ARPA operation 5. Radar plotting</p>
+<h3 id="naval-and-defense-applications">10.2 Naval and Defense
+Applications</h3>
+<p><strong>Threat Simulation:</strong></p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ThreatSimulator:</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Simulate adversary radar characteristics.&quot;&quot;&quot;</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, threat_database):</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.threats <span class="op">=</span> threat_database</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> generate_threat_signature(<span class="va">self</span>, threat_id, range_m, aspect_deg):</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Generate radar return for known threat type.&quot;&quot;&quot;</span></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>        threat <span class="op">=</span> <span class="va">self</span>.threats[threat_id]</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Look up RCS from aspect-dependent table</span></span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>        rcs <span class="op">=</span> threat.rcs_table.interpolate(aspect_deg)</span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Apply Swerling fluctuation</span></span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>        rcs <span class="op">*=</span> swerling_fluctuation(threat.swerling_type)</span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;rcs&#39;</span>: rcs,</span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;velocity&#39;</span>: threat.typical_velocity,</span>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;signature_features&#39;</span>: threat.distinctive_features</span>
+<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>        }</span></code></pre></div>
+<p><strong>Electronic Warfare Simulation:</strong></p>
+<ul>
+<li>Jamming effects</li>
+<li>Chaff/decoy modeling</li>
+<li>Electronic countermeasures (ECM)</li>
+<li>Counter-countermeasures (ECCM)</li>
+</ul>
+<h3 id="weather-radar-applications">10.3 Weather Radar Applications</h3>
+<p><strong>Reflectivity-Rain Rate Relationship:</strong></p>
+<pre><code>Z = 200 × R^1.6 (Marshall-Palmer)
+
+Where:
+  Z = reflectivity factor (mm⁶/m³)
+  R = rain rate (mm/hr)</code></pre>
+<p><strong>Dual-Polarization Metrics:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Symbol</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Differential reflectivity</td>
+<td>Z_DR</td>
+<td>Drop shape/size</td>
+</tr>
+<tr class="even">
+<td>Correlation coefficient</td>
+<td>ρ_HV</td>
+<td>Precipitation type</td>
+</tr>
+<tr class="odd">
+<td>Specific differential phase</td>
+<td>K_DP</td>
+<td>Rain rate</td>
+</tr>
+</tbody>
+</table>
+<h3 id="autonomous-systems">10.4 Autonomous Systems</h3>
+<p><strong>Radar for Autonomous Vessels:</strong></p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> AutonomousRadarProcessor:</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Radar processing for autonomous navigation.&quot;&quot;&quot;</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> process_scan(<span class="va">self</span>, sweep_data):</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Process one rotation of radar data.&quot;&quot;&quot;</span></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># CFAR detection</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>        detections <span class="op">=</span> <span class="va">self</span>.cfar_detector.detect(sweep_data)</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Track management</span></span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>        tracks <span class="op">=</span> <span class="va">self</span>.tracker.update(detections)</span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Collision risk assessment</span></span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>        risks <span class="op">=</span> []</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> track <span class="kw">in</span> tracks:</span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>            cpa, tcpa <span class="op">=</span> <span class="va">self</span>.compute_cpa(track)</span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>            risk <span class="op">=</span> <span class="va">self</span>.assess_collision_risk(track, cpa, tcpa)</span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>            risks.append(risk)</span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Navigation decision</span></span>
+<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">any</span>(r.level <span class="op">==</span> <span class="st">&#39;HIGH&#39;</span> <span class="cf">for</span> r <span class="kw">in</span> risks):</span>
+<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.compute_avoidance_maneuver(tracks, risks)</span>
+<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> compute_cpa(<span class="va">self</span>, track):</span>
+<span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Compute Closest Point of Approach.&quot;&quot;&quot;</span></span>
+<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Relative motion analysis</span></span>
+<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a>        rel_x <span class="op">=</span> track.x <span class="op">-</span> <span class="va">self</span>.own_ship.x</span>
+<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a>        rel_y <span class="op">=</span> track.y <span class="op">-</span> <span class="va">self</span>.own_ship.y</span>
+<span id="cb62-30"><a href="#cb62-30" aria-hidden="true" tabindex="-1"></a>        rel_vx <span class="op">=</span> track.vx <span class="op">-</span> <span class="va">self</span>.own_ship.vx</span>
+<span id="cb62-31"><a href="#cb62-31" aria-hidden="true" tabindex="-1"></a>        rel_vy <span class="op">=</span> track.vy <span class="op">-</span> <span class="va">self</span>.own_ship.vy</span>
+<span id="cb62-32"><a href="#cb62-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-33"><a href="#cb62-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Time to CPA</span></span>
+<span id="cb62-34"><a href="#cb62-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> rel_vx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> rel_vy<span class="op">**</span><span class="dv">2</span> <span class="op">&lt;</span> <span class="fl">0.1</span>:</span>
+<span id="cb62-35"><a href="#cb62-35" aria-hidden="true" tabindex="-1"></a>            tcpa <span class="op">=</span> <span class="bu">float</span>(<span class="st">&#39;inf&#39;</span>)</span>
+<span id="cb62-36"><a href="#cb62-36" aria-hidden="true" tabindex="-1"></a>            cpa <span class="op">=</span> np.sqrt(rel_x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> rel_y<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb62-37"><a href="#cb62-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb62-38"><a href="#cb62-38" aria-hidden="true" tabindex="-1"></a>            tcpa <span class="op">=</span> <span class="op">-</span>(rel_x<span class="op">*</span>rel_vx <span class="op">+</span> rel_y<span class="op">*</span>rel_vy) <span class="op">/</span> (rel_vx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> rel_vy<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb62-39"><a href="#cb62-39" aria-hidden="true" tabindex="-1"></a>            cpa_x <span class="op">=</span> rel_x <span class="op">+</span> rel_vx <span class="op">*</span> tcpa</span>
+<span id="cb62-40"><a href="#cb62-40" aria-hidden="true" tabindex="-1"></a>            cpa_y <span class="op">=</span> rel_y <span class="op">+</span> rel_vy <span class="op">*</span> tcpa</span>
+<span id="cb62-41"><a href="#cb62-41" aria-hidden="true" tabindex="-1"></a>            cpa <span class="op">=</span> np.sqrt(cpa_x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> cpa_y<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb62-42"><a href="#cb62-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-43"><a href="#cb62-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> cpa, tcpa</span></code></pre></div>
+<hr />
+<h2 id="chapter-11-research-frontiers">Chapter 11: Research
+Frontiers</h2>
+<h3 id="machine-learning-in-radar">11.1 Machine Learning in Radar</h3>
+<p><strong>Target Classification:</strong></p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> RadarTargetClassifier:</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;CNN-based target classification from radar images.&quot;&quot;&quot;</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.model <span class="op">=</span> <span class="va">self</span>.build_model()</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> build_model(<span class="va">self</span>):</span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>        <span class="im">from</span> tensorflow.keras <span class="im">import</span> layers, models</span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> models.Sequential([</span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>            layers.Conv2D(<span class="dv">32</span>, (<span class="dv">3</span>, <span class="dv">3</span>), activation<span class="op">=</span><span class="st">&#39;relu&#39;</span>,</span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>                         input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">1</span>)),</span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>            layers.MaxPooling2D((<span class="dv">2</span>, <span class="dv">2</span>)),</span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>            layers.Conv2D(<span class="dv">64</span>, (<span class="dv">3</span>, <span class="dv">3</span>), activation<span class="op">=</span><span class="st">&#39;relu&#39;</span>),</span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>            layers.MaxPooling2D((<span class="dv">2</span>, <span class="dv">2</span>)),</span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>            layers.Conv2D(<span class="dv">64</span>, (<span class="dv">3</span>, <span class="dv">3</span>), activation<span class="op">=</span><span class="st">&#39;relu&#39;</span>),</span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>            layers.Flatten(),</span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>            layers.Dense(<span class="dv">64</span>, activation<span class="op">=</span><span class="st">&#39;relu&#39;</span>),</span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>            layers.Dense(NUM_CLASSES, activation<span class="op">=</span><span class="st">&#39;softmax&#39;</span>)</span>
+<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a>        ])</span>
+<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> model</span>
+<span id="cb63-22"><a href="#cb63-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-23"><a href="#cb63-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> classify(<span class="va">self</span>, radar_chip):</span>
+<span id="cb63-24"><a href="#cb63-24" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Classify target from radar image chip.&quot;&quot;&quot;</span></span>
+<span id="cb63-25"><a href="#cb63-25" aria-hidden="true" tabindex="-1"></a>        prediction <span class="op">=</span> <span class="va">self</span>.model.predict(radar_chip[np.newaxis, :, :, np.newaxis])</span>
+<span id="cb63-26"><a href="#cb63-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> CLASS_NAMES[np.argmax(prediction)]</span></code></pre></div>
+<p><strong>Clutter Suppression with Deep Learning:</strong></p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ClutterSuppressionNet:</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;U-Net style network for clutter removal.&quot;&quot;&quot;</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.model <span class="op">=</span> <span class="va">self</span>.build_unet()</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> suppress_clutter(<span class="va">self</span>, radar_image):</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Remove clutter, preserve targets.&quot;&quot;&quot;</span></span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>        clean <span class="op">=</span> <span class="va">self</span>.model.predict(radar_image[np.newaxis, ...])[<span class="dv">0</span>]</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> clean</span></code></pre></div>
+<h3 id="cognitive-radar">11.2 Cognitive Radar</h3>
+<p><strong>Adaptive Waveform Selection:</strong></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CognitiveRadar:</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Radar that adapts its waveform based on environment.&quot;&quot;&quot;</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, waveform_library):</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.waveforms <span class="op">=</span> waveform_library</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.current_waveform <span class="op">=</span> <span class="st">&#39;default&#39;</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.environment_model <span class="op">=</span> EnvironmentModel()</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> sense_and_adapt(<span class="va">self</span>, received_signal):</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Analyze returns and select optimal waveform.&quot;&quot;&quot;</span></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Estimate environment parameters</span></span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>        clutter_level <span class="op">=</span> <span class="va">self</span>.estimate_clutter(received_signal)</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>        interference <span class="op">=</span> <span class="va">self</span>.detect_interference(received_signal)</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>        target_density <span class="op">=</span> <span class="va">self</span>.estimate_target_density(received_signal)</span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Update environment model</span></span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.environment_model.update(clutter_level, interference,</span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a>                                      target_density)</span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Select optimal waveform</span></span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> interference <span class="op">&gt;</span> THRESHOLD:</span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.current_waveform <span class="op">=</span> <span class="st">&#39;frequency_agile&#39;</span></span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> clutter_level <span class="op">&gt;</span> THRESHOLD:</span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.current_waveform <span class="op">=</span> <span class="st">&#39;high_doppler_resolution&#39;</span></span>
+<span id="cb65-25"><a href="#cb65-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> target_density <span class="op">&gt;</span> THRESHOLD:</span>
+<span id="cb65-26"><a href="#cb65-26" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.current_waveform <span class="op">=</span> <span class="st">&#39;high_range_resolution&#39;</span></span>
+<span id="cb65-27"><a href="#cb65-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb65-28"><a href="#cb65-28" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.current_waveform <span class="op">=</span> <span class="st">&#39;default&#39;</span></span>
+<span id="cb65-29"><a href="#cb65-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-30"><a href="#cb65-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.waveforms[<span class="va">self</span>.current_waveform]</span></code></pre></div>
+<h3 id="mimo-radar">11.3 MIMO Radar</h3>
+<p><strong>Virtual Array Concept:</strong></p>
+<pre><code>Physical arrays: N_t transmit, N_r receive
+Virtual array: N_t × N_r elements
+
+Advantage: Better angular resolution without larger antenna</code></pre>
+<p><strong>Waveform Diversity:</strong></p>
+<p>Each transmitter uses orthogonal waveforms: - Frequency division -
+Time division - Code division (e.g., OFDM)</p>
+<h3 id="quantum-radar">11.4 Quantum Radar</h3>
+<p><strong>Quantum Illumination:</strong></p>
+<p>Entangled photon pairs potentially offer: - 6 dB improvement in
+low-SNR detection - Resistance to jamming - Enhanced resolution</p>
+<p><strong>Current Status:</strong> Laboratory demonstrations; practical
+systems years away.</p>
+<hr />
+<h1 id="appendices">Appendices</h1>
+<h2 id="appendix-a-complete-radar-equation-derivation">Appendix A:
+Complete Radar Equation Derivation</h2>
+<h3 id="step-by-step-mathematical-derivation">Step-by-Step Mathematical
+Derivation</h3>
+<p><strong>1. Transmitted Power Density</strong></p>
+<p>The transmitter radiates power P_t through an antenna with gain
+G_t:</p>
+<pre><code>Power density at range R:
+S_t = (P_t × G_t) / (4πR²)  [W/m²]</code></pre>
+<p><strong>2. Power Intercepted by Target</strong></p>
+<p>The target presents an effective area σ (radar cross section):</p>
+<pre><code>P_intercepted = S_t × σ = (P_t × G_t × σ) / (4πR²)  [W]</code></pre>
+<p><strong>3. Re-radiated Power Density</strong></p>
+<p>Assuming isotropic re-radiation:</p>
+<pre><code>S_r = P_intercepted / (4πR²) = (P_t × G_t × σ) / ((4πR²)²)  [W/m²]</code></pre>
+<p><strong>4. Received Power</strong></p>
+<p>The receiving antenna has effective aperture A_e:</p>
+<pre><code>A_e = (G_r × λ²) / (4π)  [m²]
+
+P_r = S_r × A_e = (P_t × G_t × G_r × λ² × σ) / ((4π)³ × R⁴)  [W]</code></pre>
+<h2 id="appendix-b-simulation-code-architecture">Appendix B: Simulation
+Code Architecture</h2>
+<h3 id="recommended-module-structure">Recommended Module Structure</h3>
+<pre><code>radar_sim/
+├── core/
+│   ├── simulation.py       # Main simulation loop
+│   ├── world.py           # World state management
+│   └── timing.py          # Timing and synchronization
+├── radar/
+│   ├── parameters.py      # Radar system parameters
+│   ├── antenna.py         # Antenna pattern modeling
+│   ├── detection.py       # Detection engine
+│   └── signal_processing.py
+├── environment/
+│   ├── terrain.py         # Height map, DEM loading
+│   ├── occlusion.py       # LOS calculations
+│   ├── coastline.py       # Polygon handling
+│   ├── clutter.py         # Sea/rain clutter
+│   ├── weather.py         # Weather effects
+│   └── noise.py           # Noise generation
+├── objects/
+│   ├── vessel.py          # Target modeling
+│   └── ownship.py         # Own ship state
+├── validation/
+│   ├── validator.py       # Validation engine
+│   ├── metrics.py         # Quality metrics
+│   └── comparator.py      # A/B comparison
+└── ui/
+    ├── ppi_display.py     # Plan Position Indicator
+    └── control_panel.py   # User controls</code></pre>
+<h2 id="appendix-c-performance-benchmarks">Appendix C: Performance
+Benchmarks</h2>
+<h3 id="typical-operation-times-numpy-optimized">Typical Operation Times
+(NumPy Optimized)</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Time</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sea clutter (512 bins)</td>
+<td>0.5 ms</td>
+<td>K-distribution</td>
+</tr>
+<tr class="even">
+<td>Noise generation</td>
+<td>0.06 ms</td>
+<td>Rayleigh</td>
+</tr>
+<tr class="odd">
+<td>Log compression</td>
+<td>0.04 ms</td>
+<td>512 samples</td>
+</tr>
+<tr class="even">
+<td>Terrain elevation batch</td>
+<td>0.13 ms</td>
+<td>512 points</td>
+</tr>
+<tr class="odd">
+<td>Ray-march occlusion</td>
+<td>0.73 ms</td>
+<td>Per bearing</td>
+</tr>
+<tr class="even">
+<td>Coastline returns</td>
+<td>0.18 ms</td>
+<td>Per bearing</td>
+</tr>
+<tr class="odd">
+<td>Full weather pipeline</td>
+<td>0.19 ms</td>
+<td>Per sweep</td>
+</tr>
+<tr class="even">
+<td><strong>Complete rotation</strong></td>
+<td><strong>~400 ms</strong></td>
+<td>360 bearings</td>
+</tr>
+</tbody>
+</table>
+<h3 id="memory-requirements">Memory Requirements</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Memory</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sweep buffer (360×512)</td>
+<td>1.4 MB</td>
+<td>float32</td>
+</tr>
+<tr class="even">
+<td>Height map (1024×1024)</td>
+<td>4 MB</td>
+<td>float32</td>
+</tr>
+<tr class="odd">
+<td>Coastline (10K points)</td>
+<td>160 KB</td>
+<td>float64 pairs</td>
+</tr>
+<tr class="even">
+<td>Occlusion cache</td>
+<td>1-10 MB</td>
+<td>Configurable</td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix-d-references">Appendix D: References</h2>
+<h3 id="foundational-textbooks">Foundational Textbooks</h3>
+<ol type="1">
+<li>Skolnik, M.I. (2008). <em>Radar Handbook</em>, 3rd Edition.
+McGraw-Hill.</li>
+<li>Richards, M.A. (2014). <em>Fundamentals of Radar Signal
+Processing</em>, 2nd Edition. McGraw-Hill.</li>
+<li>Mahafza, B.R. (2013). <em>Radar Systems Analysis and Design Using
+MATLAB</em>, 3rd Edition. CRC Press.</li>
+<li>Barton, D.K. (2012). <em>Radar Equations for Modern Radar</em>.
+Artech House.</li>
+</ol>
+<h3 id="sea-clutter">Sea Clutter</h3>
+<ol start="5" type="1">
+<li>Ward, K.D., Tough, R.J.A., &amp; Watts, S. (2013). <em>Sea Clutter:
+Scattering, the K Distribution and Radar Performance</em>, 2nd Edition.
+IET.</li>
+<li>Watts, S. (2012). “Modeling and Simulation of Coherent Sea Clutter.”
+<em>IEEE Transactions on Aerospace and Electronic Systems</em>.</li>
+</ol>
+<h3 id="terrain-and-propagation">Terrain and Propagation</h3>
+<ol start="7" type="1">
+<li>Blake, L.V. (1986). <em>Radar Range-Performance Analysis</em>.
+Artech House.</li>
+<li>ITU-R P.526-15 (2019). “Propagation by diffraction.”</li>
+</ol>
+<h3 id="standards">Standards</h3>
+<ol start="9" type="1">
+<li>IMO Resolution MSC.192(79). “Adoption of the Revised Performance
+Standards for Radar Equipment.”</li>
+<li>IEC 62388:2013. “Maritime navigation and radiocommunication
+equipment and systems.”</li>
+</ol>
+<h3 id="research-papers">Research Papers</h3>
+<ol start="11" type="1">
+<li>Farina, A., &amp; Studer, F.A. (1986). “A review of CFAR detection
+techniques in radar systems.” <em>Microwave Journal</em>.</li>
+<li>Conte, E., De Maio, A., &amp; Ricci, G. (2002). “Recursive
+estimation of the covariance matrix of a compound-Gaussian process and
+its application to adaptive CFAR detection.” <em>IEEE Transactions on
+Signal Processing</em>.</li>
+</ol>
+<hr />
+<p><em>This Professional Guide provides the depth required for
+expert-level understanding of radar simulation. Combined with the
+Intermediate Guide, it forms a complete reference for building,
+validating, and deploying high-fidelity radar simulators.</em></p>
+</body>
+</html>
