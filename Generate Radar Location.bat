@@ -9,13 +9,16 @@ echo   Marine Radar Location Generator
 echo ============================================
 echo.
 echo Options:
-echo   1. Generate location file (lakes work with names)
+echo   1. Generate location file (standard range)
 echo   2. Look up water coordinates (for bays/ocean areas)
+echo   3. Generate MARITIME location (auto-positions near coastline
+echo      for DRS4DNXT short-range radar - best for Mode 12)
 echo.
 
-set /p CHOICE="Enter choice (1 or 2): "
+set /p CHOICE="Enter choice (1, 2, or 3): "
 
 if "%CHOICE%"=="2" goto LOOKUP
+if "%CHOICE%"=="3" goto MARITIME
 goto GENERATE
 
 :LOOKUP
@@ -74,6 +77,45 @@ echo.
 echo Generating location file...
 echo.
 python generate_location.py "%LOCATION%" --range %RANGE% %TFLAG% %OFLAG%
+
+echo.
+echo ============================================
+pause
+exit /b 0
+
+:MARITIME
+echo.
+echo ============================================
+echo   Generate Maritime Location (Auto-Coastline)
+echo ============================================
+echo.
+echo This mode auto-positions the radar near the nearest coastline
+echo so features are within the DRS4DNXT's 0.125 NM range.
+echo Great for Mode 12 in the Object Creation simulator.
+echo.
+echo For LAKES: Enter the lake name (e.g., Lake Murray, South Carolina)
+echo For BAYS/OCEAN: Enter coordinates (e.g., 32.78,-79.93)
+echo.
+
+set /p MLOCATION="Enter location (name or lat,lon): "
+set /p MRANGE="Search range in NM (default 6 - wider finds more coastlines): "
+if "%MRANGE%"=="" set MRANGE=6
+
+set /p MOUTFILE="Output filename (without extension): "
+set /p MSAVEPATH="Save to folder path (leave blank for current directory): "
+set MOFLAG=
+if not "%MOUTFILE%"=="" (
+    if not "%MSAVEPATH%"=="" (
+        set MOFLAG=-o "%MSAVEPATH%\%MOUTFILE%"
+    ) else (
+        set MOFLAG=-o "%MOUTFILE%"
+    )
+)
+
+echo.
+echo Generating maritime location file...
+echo.
+python generate_location.py "%MLOCATION%" --range %MRANGE% --maritime %MOFLAG%
 
 echo.
 echo ============================================
